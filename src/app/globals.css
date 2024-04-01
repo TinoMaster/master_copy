@@ -2,32 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@layer base {
+  .root {
+    @apply flex min-h-screen w-full flex-col lg:flex-row;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  .root-container {
+    @apply mt-16 flex-1 overflow-auto py-8 lg:mt-0 lg:max-h-screen lg:py-10;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .wrapper {
+    @apply max-w-5xl mx-auto px-5 md:px-10 w-full;
+  }
+
+  .header-nav_elements {
+    @apply mt-8 flex w-full flex-col items-start gap-5;
+  }
+
+  .sidebar {
+    @apply hidden h-screen w-80 p-5 shadow-md shadow-pri-200/50 lg:flex bg-pri-900/10;
+  }
+
+  .sidebar-nav {
+    @apply h-full flex-col justify-between md:flex md:gap-4;
+  }
+
+  .sidebar-nav_elements {
+    @apply hidden w-full flex-col items-start gap-2 md:flex;
+  }
+
+  .sidebar-nav_element {
+    @apply w-full whitespace-nowrap rounded-full bg-cover transition-all hover:shadow-inner;
+  }
+
+  .sidebar-link {
+    @apply flex items-center size-full gap-4 p-4;
+  }
+
+  .sheet-content button {
+    @apply focus:ring-0 focus-visible:ring-transparent focus:ring-offset-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-none !important;
   }
 }
