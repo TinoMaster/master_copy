@@ -52,6 +52,10 @@ const config = {
           "950": "#440b0c",
         },
       },
+      maxWidth: {
+        "1080p": "1920px",
+        "720p": "1280px",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

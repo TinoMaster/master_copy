@@ -1,6 +1,6 @@
 "use client";
+import { LoadingPageLoader } from "@/components/loaders/pages/LoadingPageLoader";
 import { useLogin } from "@/hooks/useLogin";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -8,7 +8,7 @@ export default function Login() {
   const { formLogin, setFormLogin, handleSubmit, loading, status } = useLogin();
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return <LoadingPageLoader />;
   }
 
   if (status === "authenticated") {
@@ -23,10 +23,12 @@ export default function Login() {
                alt="fondo auth"
                className="w-full h-full absolute object-cover brightness-25"
             /> */}
-        <div className="flex flex-col items-center p-2 lg:p-8 sm:max-w-md rounded-lg w-full sm:bg-gradient-to-tr from-darkMode/70 via-primary/10 to-darkMode shadow-lg z-10">
+        <div className="flex flex-col gap-5 items-center p-2 lg:p-8 sm:max-w-md rounded-lg w-full sm:bg-gradient-to-tr from-darkMode/70 via-primary/10 to-darkMode sm:shadow-lg z-10">
           <h2 className="text-3xl font-bold text-center text-slate-200 py-5">
             Login
           </h2>
+
+          <div className="w-36 h-36 rounded-full bg-white"></div>
 
           <form
             className="flex flex-col w-full max-w-sm gap-3"
@@ -85,7 +87,7 @@ export default function Login() {
               <span className="mr-[25px]">Entrar</span>
             </button>
           </form>
-          <div className="pt-5 flex text-gray-100 gap-1">
+          {/* <div className="pt-5 flex text-gray-100 gap-1">
             <span>No tienes cuenta?</span>
             <Link
               href={"/register"}
@@ -94,7 +96,7 @@ export default function Login() {
               Registrarse
             </Link>
           </div>
-          <p className="text-gray-100 mt-5">o bien</p>
+          <p className="text-gray-100 mt-5">o bien</p> */}
         </div>
       </section>
     );

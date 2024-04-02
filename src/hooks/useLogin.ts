@@ -18,6 +18,7 @@ export const useLogin = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     toast.loading("Iniciando sesión...");
     setLoading(true);
     const res = await signIn("credentials", {
@@ -33,7 +34,7 @@ export const useLogin = () => {
       window.location.href = "/";
     } else {
       toast.remove();
-      toast.error(res?.error ?? "Error al iniciar sesión");
+      toast.error("Usuario o contraseña incorrectos");
     }
     setLoading(false);
   };

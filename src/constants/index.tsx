@@ -43,8 +43,8 @@ export const navLinks = [
     icon: LiaCashRegisterSolid,
   },
   {
-    label: "Comprar Credito",
-    route: "/credits",
+    label: "Panel Administrador",
+    route: "/admin",
     icon: BsCreditCard2Front,
   },
 ];
