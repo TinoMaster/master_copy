@@ -1,15 +1,15 @@
 import { model, models, Schema } from "mongoose";
 
-export interface IUser extends Document {
+export interface IUser {
+  name?: string;
   username: string;
   email: string;
-  address: string;
   password: string;
   role: string;
-  name?: string;
+  address?: string;
   municipality?: string;
+  CI?: number;
   phone?: string;
-  image?: string;
 }
 
 const UserSchema = new Schema(
@@ -24,10 +24,10 @@ const UserSchema = new Schema(
     address: { type: String, required: true },
     password: { type: String, required: true },
     role: { type: String, required: true },
+    CI: Number,
     name: String,
     municipality: String,
     phone: String,
-    image: String,
   },
   {
     timestamps: true,

@@ -12,10 +12,6 @@ import { verifyPassword } from "@/functions/api/password.verify";
 export const authOptions: AuthOptions = {
   secret: nextAuthConfig.secret,
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
     CredentialsProvider({
       name: "credentials",
       id: "credentials",
@@ -43,7 +39,6 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  /* //FIXME: view later */
   adapter: MongoDBAdapter(clientPromise) as any,
   pages: {
     signIn: "/login",
@@ -65,7 +60,7 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       session.user = {
-        username: token.username,
+        username: (token._doc as { username: string }).username,
         email: token.email,
         sub: token.sub,
         role: (token._doc as { role: boolean }).role,

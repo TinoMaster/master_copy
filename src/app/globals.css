@@ -3,12 +3,17 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #d6b57d #2b2b2b;
+  }
   .root {
     @apply flex min-h-screen w-full flex-col lg:flex-row;
   }
 
   .root-container {
-    @apply mt-16 flex-1 overflow-auto py-8 lg:mt-0 lg:max-h-screen lg:py-10;
+    @apply mt-16 flex-1 overflow-y-scroll py-8 lg:mt-0 lg:max-h-screen lg:py-10;
   }
 }
 
@@ -17,7 +22,7 @@
     @apply max-w-720p m-auto w-11/12 overflow-hidden;
   }
   .wrapper {
-    @apply max-w-5xl mx-auto px-5 md:px-10 w-full;
+    @apply max-w-720p mx-auto px-5 md:px-10 w-full;
   }
 
   .header-nav_elements {
@@ -50,5 +55,9 @@
 
   .input {
     @apply w-full bg-transparent disabled:bg-gray-700/40 disabled:cursor-not-allowed disabled:text-gray-300 placeholder:text-gray-300/30 placeholder:font-light rounded-xl border bg-opacity-40 border-gray-300/40 focus:bg-transparent focus:ring-2 focus:ring-pri-900 focus:border-primary text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out;
+  }
+
+  .label {
+    @apply block text-sm font-medium leading-6 text-gray-300;
   }
 }
