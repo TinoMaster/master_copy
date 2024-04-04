@@ -1,13 +1,12 @@
 import { UserModel } from "@/app/models/User";
 import { db_config } from "@/config/db.config";
 import { nextAuthConfig } from "@/config/nextAuth.config";
+import { verifyPassword } from "@/functions/api/password.verify";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import mongoose from "mongoose";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import clientPromise from "./clientPromise";
-import GoogleProvider from "next-auth/providers/google";
-import { verifyPassword } from "@/functions/api/password.verify";
 
 export const authOptions: AuthOptions = {
   secret: nextAuthConfig.secret,
@@ -52,19 +51,25 @@ export const authOptions: AuthOptions = {
     maxAge: 60 * 60 * 24 * 30,
   },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
-      if (trigger === "update") {
-        return { ...token, ...session.user };
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+        token.email = user.email;
+        token.username = user.username;
+        token.role = user.role;
       }
-      return { ...token, ...user };
+
+      return token;
     },
     async session({ session, token }) {
-      session.user = {
-        username: (token._doc as { username: string }).username,
-        email: token.email,
-        sub: token.sub,
-        role: (token._doc as { role: boolean }).role,
-      } as any;
+      if (session?.user) {
+        session.user = {
+          username: token.username,
+          email: token.email,
+          sub: token.sub,
+          role: token.role,
+        } as any;
+      }
       return session;
     },
   },
