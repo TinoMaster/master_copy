@@ -1,3 +1,4 @@
+import { IUser } from "@/app/models/User";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -22,3 +23,7 @@ export const convertPathWithSpaces = (path: string) => {
 export const convertPathWithSpacesReverse = (path: string) => {
   return path.replace(/%20/g, " ");
 };
+
+export function parseServerResponse<T>(response: T) {
+  return JSON.parse(JSON.stringify(response)) as T;
+}

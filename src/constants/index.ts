@@ -48,19 +48,11 @@ export const navLinks = [
 
 export const linksAdminPanel: TLink[] = [
   {
-    title: "Register",
-    route: "/admin/register",
-  },
-  {
-    title: "Ingredients",
+    title: "Proyecto",
     route: "/admin",
   },
   {
-    title: "Menu",
-    route: "/admin/prueba2",
-  },
-  {
-    title: "Users",
-    route: "/admin/prueba3",
+    title: "Usuarios",
+    route: "/admin/users",
   },
 ];

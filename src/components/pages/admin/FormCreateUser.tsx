@@ -1,14 +1,14 @@
 "use client";
+import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createUserInput } from "@/constants/inputs";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { userSchema } from "@/services/validators/user.zod";
-import toast from "react-hot-toast";
 import { registerUser } from "@/services/actions/user.actions";
-import { IUser } from "@/app/models/User";
-import { useRef } from "react";
+import { userSchema } from "@/services/validators/user.zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useRef } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type Inputs = {
   name: string;
@@ -23,7 +23,7 @@ type Inputs = {
   role: string;
 };
 
-export default function Register() {
+export const FormCreateUser = () => {
   const {
     register,
     handleSubmit,
@@ -35,7 +35,7 @@ export default function Register() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     toast.loading("Creando usuario...");
-    const dataToSend: IUser = {
+    const dataToSend: Omit<IUser, "_id"> = {
       name: data.name,
       username: data.username,
       email: data.email,
@@ -59,6 +59,7 @@ export default function Register() {
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="">
+      <h1 className="text-3xl font-bold pb-3">Registrar usuario</h1>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-100">
@@ -73,13 +74,13 @@ export default function Register() {
                 key={input.id}
                 className={`${input.containerClass} relative`}
               >
-                <label htmlFor="first-name" className={input.labelClass}>
+                <label htmlFor={input.id} className={input.labelClass}>
                   {input.label}
                 </label>
                 <div className="mt-2">
                   <Input
                     type={input.type}
-                    id="first-name"
+                    id={input.id}
                     autoComplete="given-name"
                     className={input.inputClass}
                     {...register(input.name as keyof Inputs)}
@@ -173,4 +174,4 @@ export default function Register() {
       </div>
     </form>
   );
-}
+};

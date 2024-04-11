@@ -7,7 +7,7 @@ const AdminPageLayout = async ({ children }: { children: React.ReactNode }) => {
       <h3 className="absolute -top-6 uppercase text-xs bg-lightDarkMode px-2 rounded-md lg:hidden">
         Panel Administrador
       </h3>
-      <MenuInfinite links={linksAdminPanel} cutPath={[1, 4]} position="right" />
+      <MenuInfinite links={linksAdminPanel} cutPath={[1, 3]} position="right" />
       {children}
     </div>
   );
