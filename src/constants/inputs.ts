@@ -101,3 +101,7 @@ export const createUserInput: TInput[] = [
     inputClass: "input",
   },
 ];
+
+export const editUserInput: TInput[] = createUserInput.filter(
+  (input) => input.type !== "password"
+);

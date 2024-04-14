@@ -66,7 +66,7 @@ export const FormCreateUser = () => {
             Información Personal
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-300">
-            Use a permanent address where you can receive mail.
+            Los campos con (*) son obligatorios
           </p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             {createUserInput.map((input) => (

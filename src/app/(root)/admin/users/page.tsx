@@ -15,7 +15,7 @@ const UsersPage = async () => {
         <div>
           <h4 className="text-3xl font-semibold">Usuarios</h4>
           <p className="mt-2 text-gray-300 text-base sm:text-sm">
-            Give your team members access to manage the system.
+            Lista de todos los usuarios registrados en el sistema.
           </p>
         </div>
         <Link
