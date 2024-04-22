@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: #d6b57d #2b2b2b;
+    scrollbar-color: #7D9DAF #2b2b2b;
   }
   .root {
     @apply flex min-h-screen w-full flex-col lg:flex-row;

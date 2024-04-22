@@ -25,13 +25,13 @@ export const useLogin = () => {
       email: formLogin.email,
       password: formLogin.password,
       redirect: false,
-      callbackUrl: "/",
+      callbackUrl: "/dashboard",
     });
 
     if (res?.ok) {
       setFormLogin(INITIAL_FORM);
       toast.remove();
-      window.location.href = "/";
+      window.location.href = "/dashboard";
     } else {
       toast.remove();
       toast.error("Usuario o contraseña incorrectos");

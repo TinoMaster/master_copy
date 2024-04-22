@@ -12,18 +12,18 @@ export default function Login() {
   }
 
   if (status === "authenticated") {
-    router.push("/");
+    router.push("/dashboard");
   }
 
   if (status === "unauthenticated") {
     return (
-      <section className="w-full bg-gradient-to-tr from-darkMode via-lightDarkMode to-darkMode min-h-screen flex flex-col justify-center items-center relative">
+      <section className="w-full h-full min-h-screen flex justify-center items-center relative">
         {/* <Image
                src={prenotazione}
                alt="fondo auth"
                className="w-full h-full absolute object-cover brightness-25"
             /> */}
-        <div className="flex flex-col gap-5 items-center p-2 lg:p-8 sm:max-w-md rounded-lg w-full sm:bg-gradient-to-tr from-darkMode/70 via-primary/10 to-darkMode sm:shadow-lg z-10">
+        <div className="flex flex-col gap-5 items-center p-2 lg:p-8 sm:max-w-md rounded-lg w-full sm:bg-darkMode/50 sm:shadow-lg z-10">
           <h2 className="text-3xl font-bold text-center text-slate-200 py-5">
             Login
           </h2>

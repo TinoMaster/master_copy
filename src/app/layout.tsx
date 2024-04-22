@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-gradient-to-tr from-darkMode via-lightDarkMode to-darkMode text-gray-200`}
+        className={`${inter.className} bg-gradient-to-tr from-darkMode via-lightDarkMode to-darkMode/90 text-gray-200`}
       >
         <Providers>
           <Toaster />

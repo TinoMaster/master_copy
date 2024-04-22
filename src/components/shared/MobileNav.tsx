@@ -46,7 +46,7 @@ const MobileNav = () => {
                         href={link.route}
                       >
                         {link.icon && <link.icon className="text-3xl" />}
-                        {link.label}
+                        {link.title}
                       </Link>
                     </li>
                   );
@@ -60,7 +60,7 @@ const MobileNav = () => {
                     } p-18 flex whitespace-nowrap text-dark-700`}
                   >
                     <Link className="sidebar-link cursor-pointer" href="/admin">
-                      <IoSettingsOutline className="text-3xl"/>
+                      <IoSettingsOutline className="text-3xl" />
                       Panel Administrador
                     </Link>
                   </li>

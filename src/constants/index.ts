@@ -7,41 +7,52 @@ import { LiaCashRegisterSolid } from "react-icons/lia";
 import { LuBoxes } from "react-icons/lu";
 import { MdOutlineInventory } from "react-icons/md";
 
-export const navLinks = [
+export const navLinksOut: TLink[] = [
   {
-    label: "Inicio",
-    route: "/",
+    title: "Contacto",
+    route: "/contact",
+  },
+  {
+    title: "Documentación",
+    route: "/docs",
+  },
+];
+
+export const navLinks: TLink[] = [
+  {
+    title: "Inicio",
+    route: `/dashboard/${/\d+/g}`,
     icon: FaHome,
   },
   {
-    label: "Ventas",
-    route: "/sales",
+    title: "Ventas",
+    route: "/dashboard/sales",
     icon: FcSalesPerformance,
   },
   {
-    label: "Mirón",
-    route: "/miron",
+    title: "Mirón",
+    route: "/dashboard/miron",
     icon: MdOutlineInventory,
   },
 
   {
-    label: "Inventario",
-    route: "/inventory",
+    title: "Inventario",
+    route: "/dashboard/inventory",
     icon: LuBoxes,
   },
   {
-    label: "Estadísticas",
-    route: "/statistics",
+    title: "Estadísticas",
+    route: "/dashboard/statistics",
     icon: GrUserWorker,
   },
   {
-    label: "Tienda",
-    route: "/store",
+    title: "Tienda",
+    route: "/dashboard/store",
     icon: AiOutlineShop,
   },
   {
-    label: "Cuadre",
-    route: "/cashier",
+    title: "Cuadre",
+    route: "/dashboard/cashier",
     icon: LiaCashRegisterSolid,
   },
 ];
@@ -49,10 +60,10 @@ export const navLinks = [
 export const linksAdminPanel: TLink[] = [
   {
     title: "Proyecto",
-    route: "/admin",
+    route: "/dashboard/admin",
   },
   {
     title: "Usuarios",
-    route: "/admin/users",
+    route: "/dashboard/admin/users",
   },
 ];

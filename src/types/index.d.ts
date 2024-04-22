@@ -1,7 +1,9 @@
+import { IconType } from "react-icons/lib";
+
 export type TLink = {
   title: string;
   route: string;
-  icon?: string;
+  icon?: IconType;
 };
 
 export type TInput = {

@@ -1,4 +1,5 @@
 "use client";
+import { NavProvider } from "@/context/navContext";
 import { SessionProvider } from "next-auth/react";
 
 export function Providers({
@@ -6,5 +7,9 @@ export function Providers({
 }: {
   readonly children: React.ReactNode;
 }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      <NavProvider>{children}</NavProvider>
+    </SessionProvider>
+  );
 }

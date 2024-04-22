@@ -35,7 +35,7 @@ const Sidebar = () => {
                 >
                   <Link className="sidebar-link" href={link.route}>
                     {link.icon && <link.icon className="text-3xl" />}
-                    {link.label}
+                    {link.title}
                   </Link>
                 </li>
               );
@@ -57,7 +57,7 @@ const Sidebar = () => {
                 >
                   <Link className="sidebar-link" href={link.route}>
                     {link.icon && <link.icon />}
-                    {link.label}
+                    {link.title}
                   </Link>
                 </li>
               );
