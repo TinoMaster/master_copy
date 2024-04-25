@@ -18,10 +18,10 @@ export async function getUsers() {
   }
 }
 
-export async function getUser(email: string) {
+export async function getUser(id: string) {
   try {
     await mongoose.connect(process.env.MONGODB_URI ?? "");
-    const res = await UserModel.findOne<IUser>({ email });
+    const res = await UserModel.findById<IUser>(id);
 
     if (!res) {
       return null;

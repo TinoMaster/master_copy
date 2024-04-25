@@ -1,33 +1,19 @@
 import { model, models, Schema } from "mongoose";
 
-export interface IProject {
+export interface IProject extends Document {
   _id: string;
   name: string;
-  image: string;
   owner: string;
-  business: string;
-  description: string;
-  status: string;
+  business: string[];
   credit: number;
-  workers: string[];
-  address: string;
-  municipality: string;
-  phone: string;
 }
 
-const ProjectSchema = new Schema(
+const ProjectSchema: Schema = new Schema(
   {
-    name: { type: String, required: true },
-    image: String,
+    name: { type: String, required: true, unique: true },
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    business: { type: Schema.Types.ObjectId, ref: "Business", required: true },
-    description: { type: String, required: true },
-    status: { type: String, required: true },
+    business: [{ type: Schema.Types.ObjectId, ref: "Business" }],
     credit: { type: Number, default: 0 },
-    workers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    address: String,
-    municipality: String,
-    phone: String,
   },
   {
     timestamps: true,
@@ -35,4 +21,5 @@ const ProjectSchema = new Schema(
   }
 );
 
-export const ProjectModel = models?.Project || model("Project", ProjectSchema);
+export const ProjectModel =
+  models?.Project || model<IProject>("Project", ProjectSchema);

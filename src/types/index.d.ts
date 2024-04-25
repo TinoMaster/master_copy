@@ -1,4 +1,5 @@
 import { IconType } from "react-icons/lib";
+import { IBusiness } from "../app/models/BusinessSchema";
 
 export type TLink = {
   title: string;
@@ -12,9 +13,19 @@ export type TInput = {
   type: string;
   label?: string;
   placeholder?: string;
+  description?: string;
   editable?: boolean;
+  required?: boolean;
   value?: string;
   containerClass?: string;
   labelClass?: string;
   inputClass?: string;
 };
+
+export interface CreateFirstProject
+  extends Omit<
+    IBusiness,
+    "_id" | "workers" | "schedules" | "project" | "credit"
+  > {
+  projectName: string;
+}

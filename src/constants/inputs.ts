@@ -102,6 +102,58 @@ export const createUserInput: TInput[] = [
   },
 ];
 
+export const createBusinessInput: TInput[] = [
+  {
+    id: "name_item",
+    label: "Nombre",
+    labelClass: "label",
+    description: "Elija un nombre para identificar al negocio",
+    required: true,
+    type: "text",
+    placeholder: "Ej: Mi Negocio",
+    name: "name",
+    editable: true,
+    containerClass: "sm:col-span-3",
+    inputClass: "input",
+  },
+  {
+    id: "address_item",
+    label: "Dirección",
+    description: "Dirección del negocio",
+    required: true,
+    labelClass: "label",
+    type: "text",
+    placeholder: "Ej: Calle 123",
+    name: "address",
+    editable: true,
+    containerClass: "sm:col-span-full",
+    inputClass: "input",
+  },
+  {
+    id: "municipality_item",
+    label: "Municipio",
+    labelClass: "label",
+    required: true,
+    type: "text",
+    placeholder: "Ej: San Jose",
+    name: "municipality",
+    editable: true,
+    containerClass: "sm:col-span-2 sm:col-start-1",
+    inputClass: "input",
+  },
+  {
+    id: "phone_item",
+    label: "Telefono",
+    labelClass: "label",
+    type: "text",
+    placeholder: "Ej: 123456789",
+    name: "phone",
+    editable: true,
+    containerClass: "sm:col-span-2",
+    inputClass: "input",
+  },
+];
+
 export const editUserInput: TInput[] = createUserInput.filter(
   (input) => input.type !== "password"
 );

@@ -11,8 +11,7 @@ export interface IUser {
   municipality?: string;
   CI?: number;
   phone?: string;
-  business?: string;
-  projects?: string[];
+  project?: string;
 }
 
 const UserSchema = new Schema(
@@ -31,8 +30,7 @@ const UserSchema = new Schema(
     name: String,
     municipality: String,
     phone: String,
-    business: { type: Schema.Types.ObjectId, ref: "Business" },
-    projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+    project: { type: Schema.Types.ObjectId, ref: "Project" },
   },
   {
     timestamps: true,
