@@ -1,11 +1,11 @@
 import { model, models, Schema } from "mongoose";
 
-export interface IBusiness {
+export interface IBusiness extends Document {
   _id: string;
   name: string;
   owner: string;
   project: string;
-  description: string;
+  description?: string;
   status: string;
   credit: number;
   workers: string[];
@@ -16,12 +16,12 @@ export interface IBusiness {
   statisticPermission?: boolean;
 }
 
-const BusinessSchema = new Schema(
+const BusinessSchema: Schema = new Schema(
   {
     name: { type: String, required: true, unique: true },
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     project: { type: Schema.Types.ObjectId, ref: "Project", required: true },
-    description: { type: String, required: true },
+    description: { type: String },
     status: { type: String, required: true },
     credit: { type: Number, default: 0 },
     workers: [{ type: Schema.Types.ObjectId, ref: "User" }],
@@ -44,4 +44,4 @@ const BusinessSchema = new Schema(
 );
 
 export const BusinessModel =
-  models?.Business || model("Business", BusinessSchema);
+  models?.Business || model<IBusiness>("Business", BusinessSchema);

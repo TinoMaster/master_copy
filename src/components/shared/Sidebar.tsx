@@ -10,7 +10,8 @@ import { useSession } from "next-auth/react";
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const route = cutPathnameByPieces(pathname, 1, 2);
+  const route = cutPathnameByPieces(pathname, 3, 4);
+  const initialPath = cutPathnameByPieces(pathname, 1, 3);
   const { data: session } = useSession();
   return (
     <aside className="sidebar">
@@ -33,7 +34,10 @@ const Sidebar = () => {
                       : "hover:bg-primary/10"
                   }`}
                 >
-                  <Link className="sidebar-link" href={link.route}>
+                  <Link
+                    className="sidebar-link"
+                    href={`${initialPath}${link.route}`}
+                  >
                     {link.icon && <link.icon className="text-3xl" />}
                     {link.title}
                   </Link>

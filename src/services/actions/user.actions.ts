@@ -34,6 +34,29 @@ export async function getUser(id: string) {
   }
 }
 
+export async function userHasProject(email: string) {
+  try {
+    const res = await UserModel.findOne({ email: email });
+
+    if (!res) {
+      return { success: false, message: "Error al obtener el usuario" };
+    }
+
+    if (res?.project) {
+      return {
+        success: true,
+        message: "El usuario tiene proyecto",
+        data: JSON.parse(JSON.stringify(res.project)),
+      };
+    }
+
+    return { success: false, message: "El usuario no tiene proyecto" };
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: "Error inesperado" };
+  }
+}
+
 export async function registerUser(data: Omit<IUser, "_id">) {
   try {
     const passwordHashed = await hashPassword(data.password);

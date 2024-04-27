@@ -1,15 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
 import { RiLogoutCircleLine } from "react-icons/ri";
 
-export const UserOptions = ({ business }: { business: string }) => {
+export const UserOptions = () => {
+  const { data: session, status } = useSession();
+
+  if (status === "loading" || status === "unauthenticated") return null;
+
   return (
     <>
-      {business ? (
+      {session?.user.project ? (
         <Link
-          href={`/dashboard/${business}`}
+          href={`/dashboard/${session.user.project}`}
           className="flex items-center gap-1 p-2 rounded-lg hover:bg-white/90 hover:text-gray-800 transition-colors duration-150"
         >
           <span className="capitalize text-sm">Proyecto</span>

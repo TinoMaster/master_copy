@@ -22,10 +22,6 @@ export type TInput = {
   inputClass?: string;
 };
 
-export interface CreateFirstProject
-  extends Omit<
-    IBusiness,
-    "_id" | "workers" | "schedules" | "project" | "credit"
-  > {
+export interface CreateFirstProject extends Partial<IBusiness> {
   projectName: string;
 }

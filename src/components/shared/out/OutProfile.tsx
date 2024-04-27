@@ -15,7 +15,7 @@ export const OutProfile = () => {
   }
 
   if (status === "authenticated") {
-    return <User session={session} />;
+    return <User />;
   }
 
   return (

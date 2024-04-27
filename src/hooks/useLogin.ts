@@ -1,3 +1,4 @@
+import { userHasProject } from "@/services/actions/user.actions";
 import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -25,15 +26,20 @@ export const useLogin = () => {
       email: formLogin.email,
       password: formLogin.password,
       redirect: false,
-      callbackUrl: "/dashboard",
     });
+    toast.remove();
 
     if (res?.ok) {
+      toast.success("Sesión iniciada con éxito");
+      const response = await userHasProject(formLogin.email);
       setFormLogin(INITIAL_FORM);
-      toast.remove();
-      window.location.href = "/dashboard";
+
+      if (!response.success) {
+        window.location.href = "/";
+      } else {
+        window.location.href = `/dashboard/${response.data}`;
+      }
     } else {
-      toast.remove();
       toast.error("Usuario o contraseña incorrectos");
     }
     setLoading(false);

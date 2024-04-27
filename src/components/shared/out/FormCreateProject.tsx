@@ -6,6 +6,8 @@ import { createProject } from "@/services/actions/project.actions";
 import { projectSchema } from "@/services/validators/project.zod";
 import { CreateFirstProject } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -20,6 +22,7 @@ type Inputs = {
 };
 
 export const FormCreateProject = ({ userId }: { userId: string }) => {
+  const { data: session, update } = useSession();
   const {
     register,
     handleSubmit,
@@ -43,6 +46,18 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
     };
     const response = await createProject(dataToSend);
     toast.dismiss();
+    if (!response.success) {
+      toast.error(response.message);
+    } else {
+      toast.success(response.message);
+      formRef.current?.reset();
+
+      update({
+        ...session,
+        user: { ...session?.user, projectId: response.projectId },
+      });
+      redirect(`/dashboard/${response.projectId}`);
+    }
   };
 
   return (

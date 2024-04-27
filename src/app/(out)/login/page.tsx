@@ -12,7 +12,7 @@ export default function Login() {
   }
 
   if (status === "authenticated") {
-    router.push("/dashboard");
+    router.push("/");
   }
 
   if (status === "unauthenticated") {

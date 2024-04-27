@@ -21,38 +21,38 @@ export const navLinksOut: TLink[] = [
 export const navLinks: TLink[] = [
   {
     title: "Inicio",
-    route: `/dashboard/${/\d+/g}`,
+    route: `/`,
     icon: FaHome,
   },
   {
     title: "Ventas",
-    route: "/dashboard/sales",
+    route: "/sales",
     icon: FcSalesPerformance,
   },
   {
     title: "Mirón",
-    route: "/dashboard/miron",
+    route: "/miron",
     icon: MdOutlineInventory,
   },
 
   {
     title: "Inventario",
-    route: "/dashboard/inventory",
+    route: "/inventory",
     icon: LuBoxes,
   },
   {
     title: "Estadísticas",
-    route: "/dashboard/statistics",
+    route: "/statistics",
     icon: GrUserWorker,
   },
   {
     title: "Tienda",
-    route: "/dashboard/store",
+    route: "/store",
     icon: AiOutlineShop,
   },
   {
     title: "Cuadre",
-    route: "/dashboard/cashier",
+    route: "/cashier",
     icon: LiaCashRegisterSolid,
   },
 ];
@@ -60,10 +60,10 @@ export const navLinks: TLink[] = [
 export const linksAdminPanel: TLink[] = [
   {
     title: "Proyecto",
-    route: "/dashboard/admin",
+    route: "/admin",
   },
   {
     title: "Usuarios",
-    route: "/dashboard/admin/users",
+    route: "/admin/users",
   },
 ];

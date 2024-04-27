@@ -1,9 +1,11 @@
 "use client";
-import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { UserOptions } from "./UserOptions";
+import { useSession } from "next-auth/react";
 
-export const User = ({ session }: { session: Session }) => {
+export const User = () => {
+  const { data: session } = useSession();
+
   const [menuProfile, setMenuProfile] = useState(false);
 
   useEffect(() => {
@@ -25,6 +27,8 @@ export const User = ({ session }: { session: Session }) => {
     setMenuProfile((prev) => !prev);
   };
 
+  if (!session) return null;
+
   return (
     <div>
       <button
@@ -36,7 +40,7 @@ export const User = ({ session }: { session: Session }) => {
 
       {menuProfile && (
         <div className="bg-gradient-to-r from-gray-100 to-white text-darkMode absolute z-20 top-[48px] right-2 lg:right-0 p-4 lg:flex flex-col justify-center gap-2 rounded-lg hidden">
-          <UserOptions business={session.user.business ?? ""} />
+          <UserOptions />
         </div>
       )}
     </div>
