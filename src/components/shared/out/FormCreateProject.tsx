@@ -52,9 +52,9 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
       toast.success(response.message);
       formRef.current?.reset();
 
-      update({
+      await update({
         ...session,
-        user: { ...session?.user, projectId: response.projectId },
+        user: { ...session?.user, project: response.projectId },
       });
       redirect(`/dashboard/${response.projectId}`);
     }

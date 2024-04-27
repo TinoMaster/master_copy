@@ -7,17 +7,29 @@ import { cutPathnameByPieces } from "@/libs/utils";
 import { Profile } from "./Profile";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { getProject } from "@/services/actions/project.actions";
 
 const Sidebar = () => {
+  const [projectName, setProjectName] = useState("");
   const pathname = usePathname();
   const route = cutPathnameByPieces(pathname, 3, 4);
   const initialPath = cutPathnameByPieces(pathname, 1, 3);
   const { data: session } = useSession();
+
+  useEffect(() => {
+    getProject(session?.user?.project as string).then((res) => {
+      if (res) {
+        setProjectName(res.name);
+      }
+    });
+  }, [session]);
+
   return (
     <aside className="sidebar">
       <div className="flex size-full flex-col gap-8">
         <Link href="/" className="sidebar-logo">
-          <Logo />
+          <Logo withProjectName={true} name={projectName} />
         </Link>
 
         <nav className="sidebar-nav">

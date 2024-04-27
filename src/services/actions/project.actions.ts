@@ -5,6 +5,7 @@ import { BusinessModel, IBusiness } from "@/app/models/BusinessSchema";
 import mongoose from "mongoose";
 import { revalidateTag } from "next/cache";
 import { UserModel } from "@/app/models/User";
+import { parseServerResponse } from "@/libs/utils";
 
 export async function createProject(data: CreateFirstProject) {
   const dataProject: Partial<IProject> = {
@@ -52,5 +53,21 @@ export async function createProject(data: CreateFirstProject) {
   } catch (error) {
     console.log(error);
     return { success: false, message: "Ah ocurrido un error" };
+  }
+}
+
+export async function getProject(projectId: string) {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI ?? "");
+    const project = await ProjectModel.findById(projectId);
+
+    if (!project) {
+      return false;
+    }
+
+    return parseServerResponse<IProject>(project);
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 }
