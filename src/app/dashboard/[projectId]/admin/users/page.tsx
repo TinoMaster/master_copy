@@ -1,7 +1,8 @@
+import { ButtonAddUser } from "@/components/pages/admin/ButtonAddUser";
+import { ButtonEditUser } from "@/components/pages/admin/ButtonEditUser";
 import { ErrorPage } from "@/components/shared/ErrorPage";
 import { getUsers } from "@/services/actions/user.actions";
-import Link from "next/link";
-import { FaPlus, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
 const UsersPage = async () => {
   const users = await getUsers();
@@ -18,13 +19,7 @@ const UsersPage = async () => {
             Lista de todos los usuarios registrados en el sistema.
           </p>
         </div>
-        <Link
-          href="/admin/users/register"
-          className="inline-flex items-center justify-center gap-2 p-3 mt-2 font-medium text-sm text-center text-white bg-pri-600 hover:bg-pri-500 active:bg-pri-700 rounded-lg sm:mt-0"
-        >
-          <FaPlus />
-          Crear usuario
-        </Link>
+        <ButtonAddUser />
       </div>
       <ul className="mt-12 divide-y">
         {users.map((item) => (
@@ -42,12 +37,7 @@ const UsersPage = async () => {
                 </span>
               </div>
             </div>
-            <Link
-              href={`/admin/users/${item._id}`}
-              className="text-gray-700 text-sm border rounded-lg px-3 py-2 duration-150 bg-white hover:bg-gray-100"
-            >
-              Editar
-            </Link>
+            <ButtonEditUser userId={item._id} />
           </li>
         ))}
       </ul>

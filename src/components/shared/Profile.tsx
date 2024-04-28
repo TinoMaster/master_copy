@@ -3,15 +3,21 @@ import { signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 
 export const Profile = () => {
-    const { status} = useSession();
+  const { status } = useSession();
 
-    if (status === 'loading') {
-        return <div className="w-full h-10 bg-white/5 rounded-full animate-pulse"></div>;
-    }
+  if (status === "loading") {
+    return (
+      <div className="w-full h-10 bg-white/5 rounded-full animate-pulse"></div>
+    );
+  }
   return (
     <button
       onClick={() => {
-        window.confirm("¿Desea cerrar sesión?") && signOut();
+        window.confirm("¿Desea cerrar sesión?") &&
+          signOut({
+            redirect: true,
+            callbackUrl: "/",
+          });
       }}
       className="cursor-pointer flex justify-center items-center relative"
     >

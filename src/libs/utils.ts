@@ -1,4 +1,3 @@
-import { IUser } from "@/app/models/User";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -14,6 +13,10 @@ export const cutPathnameByPieces = (
   const pathnameArr = pathname.split("/");
 
   return `/` + pathnameArr.slice(from, piece).join("/");
+};
+
+export const initialRoute = (pathname: string) => {
+  return cutPathnameByPieces(pathname, 1, 3);
 };
 
 export const convertPathWithSpaces = (path: string) => {

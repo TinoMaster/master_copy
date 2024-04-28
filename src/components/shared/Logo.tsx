@@ -1,3 +1,5 @@
+import { LogoProjectName } from "./LogoProjectName";
+
 export const Logo = ({
   withText = true,
   withProjectName = false,
@@ -15,12 +17,7 @@ export const Logo = ({
         <div className="">
           <span className="text-2xl font-bold text-white">Copy Master</span>
 
-          {withProjectName && (
-            <div className="flex ml-1 items-center gap-1 text-sm">
-              <span className="font-bold text-white">Proyecto:</span>
-              <span className="font-bold text-white">{name}</span>
-            </div>
-          )}
+          {withProjectName && <LogoProjectName name={name ?? "Proyecto"} />}
         </div>
       )}
     </div>

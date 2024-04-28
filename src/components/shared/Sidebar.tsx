@@ -3,7 +3,7 @@ import { navLinks } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
-import { cutPathnameByPieces } from "@/libs/utils";
+import { cutPathnameByPieces, initialRoute } from "@/libs/utils";
 import { Profile } from "./Profile";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useSession } from "next-auth/react";
@@ -14,7 +14,7 @@ const Sidebar = () => {
   const [projectName, setProjectName] = useState("");
   const pathname = usePathname();
   const route = cutPathnameByPieces(pathname, 3, 4);
-  const initialPath = cutPathnameByPieces(pathname, 1, 3);
+  const initialPath = initialRoute(pathname);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -71,7 +71,10 @@ const Sidebar = () => {
                       : "hover:bg-primary/10"
                   }`}
                 >
-                  <Link className="sidebar-link" href={link.route}>
+                  <Link
+                    className="sidebar-link"
+                    href={`${initialPath}${link.route}`}
+                  >
                     {link.icon && <link.icon />}
                     {link.title}
                   </Link>
@@ -86,7 +89,7 @@ const Sidebar = () => {
                     : "hover:bg-primary/10"
                 }`}
               >
-                <Link className="sidebar-link" href="/admin">
+                <Link className="sidebar-link" href={`${initialPath}/admin`}>
                   <IoSettingsOutline />
                   Panel Administrador
                 </Link>

@@ -2,6 +2,7 @@
 import {
   convertPathWithSpacesReverse,
   cutPathnameByPieces,
+  initialRoute,
 } from "@/libs/utils";
 import { TLink } from "@/types";
 import { motion } from "framer-motion";
@@ -22,6 +23,7 @@ export const MenuInfinite = ({
 }: MenuInfiniteProps) => {
   const pathName = usePathname();
   const path = cutPathnameByPieces(pathName, cutPath[0], cutPath[1]);
+  const initialPath = initialRoute(pathName);
   const [width, setWidth] = useState(0);
   const element = useRef<HTMLDivElement | null>(null);
 
@@ -47,7 +49,7 @@ export const MenuInfinite = ({
         {links.map(({ route, title }) => (
           <Link
             key={title}
-            href={route}
+            href={`${initialPath}${route}`}
             className={` ${
               convertPathWithSpacesReverse(path) === route
                 ? "text-gray-700"
