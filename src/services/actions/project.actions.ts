@@ -1,11 +1,11 @@
 "use server";
-import { IProject, ProjectModel } from "@/app/models/Project";
-import { CreateFirstProject } from "@/types";
 import { BusinessModel, IBusiness } from "@/app/models/BusinessSchema";
-import mongoose from "mongoose";
-import { revalidateTag } from "next/cache";
+import { IProject, ProjectModel } from "@/app/models/Project";
 import { UserModel } from "@/app/models/User";
 import { parseServerResponse } from "@/libs/utils";
+import { CreateFirstProject } from "@/types";
+import mongoose from "mongoose";
+import { revalidateTag } from "next/cache";
 
 export async function createProject(data: CreateFirstProject) {
   const dataProject: Partial<IProject> = {
@@ -24,7 +24,6 @@ export async function createProject(data: CreateFirstProject) {
       owner: data.owner,
       project: projectId,
       description: data.description,
-      credit: 0,
       status: data.status,
       address: data.address,
       phone: data.phone,

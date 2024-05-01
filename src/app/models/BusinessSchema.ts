@@ -7,7 +7,6 @@ export interface IBusiness extends Document {
   project: string;
   description?: string;
   status: string;
-  credit: number;
   workers: string[];
   address: string;
   municipality: string;
@@ -23,7 +22,6 @@ const BusinessSchema: Schema = new Schema(
     project: { type: Schema.Types.ObjectId, ref: "Project", required: true },
     description: { type: String },
     status: { type: String, required: true },
-    credit: { type: Number, default: 0 },
     workers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     address: String,
     municipality: String,

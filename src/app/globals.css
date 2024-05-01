@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: #7D9DAF #2b2b2b;
+    scrollbar-color: #7d9daf #2b2b2b;
   }
   .root {
     @apply flex min-h-screen w-full flex-col lg:flex-row;
@@ -21,6 +21,26 @@
   .container {
     @apply max-w-720p m-auto w-11/12 overflow-hidden;
   }
+  .small-container {
+    @apply max-w-2xl mx-auto;
+  }
+
+  .title {
+    @apply text-3xl font-semibold;
+  }
+
+  .mini-title {
+    @apply text-base font-semibold leading-7 text-gray-100;
+  }
+
+  .mini-subtitle {
+    @apply text-xs text-gray-400;
+  }
+
+  .subtitle {
+    @apply mt-2 text-gray-300 text-base sm:text-sm;
+  }
+
   .wrapper {
     @apply max-w-720p mx-auto px-5 md:px-10 w-full;
   }
@@ -46,7 +66,7 @@
   }
 
   .sidebar-link {
-    @apply flex items-center size-full gap-4 p-4;
+    @apply flex items-center gap-4 p-4;
   }
 
   .sheet-content button {

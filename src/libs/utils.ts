@@ -30,3 +30,23 @@ export const convertPathWithSpacesReverse = (path: string) => {
 export function parseServerResponse<T>(response: T) {
   return JSON.parse(JSON.stringify(response)) as T;
 }
+
+export function lowerHourRange(schedule: string, schedulesArray: string[]) {
+  const hour = schedule.split(":").join("");
+  return schedulesArray.filter((item) => {
+    const itemHour = item.split(":").join("");
+    if (parseInt(hour) > parseInt(itemHour)) {
+      return true;
+    }
+  });
+}
+export function higherHourRange(schedule: string, schedulesArray: string[]) {
+  const hour = schedule.split(":").join("");
+
+  return schedulesArray.filter((item) => {
+    const itemHour = item.split(":").join("");
+    if (parseInt(hour) < parseInt(itemHour)) {
+      return true;
+    }
+  });
+}

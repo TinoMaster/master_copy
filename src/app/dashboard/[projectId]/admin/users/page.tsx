@@ -11,11 +11,11 @@ const UsersPage = async () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4">
+    <div className="small-container px-4">
       <div className="items-start justify-between sm:flex">
         <div>
-          <h4 className="text-3xl font-semibold">Usuarios</h4>
-          <p className="mt-2 text-gray-300 text-base sm:text-sm">
+          <h4 className="title">Usuarios</h4>
+          <p className="subtitle">
             Lista de todos los usuarios registrados en el sistema.
           </p>
         </div>

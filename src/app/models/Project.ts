@@ -1,10 +1,19 @@
 import { model, models, Schema } from "mongoose";
+import { IBusiness } from "./BusinessSchema";
 
 export interface IProject extends Document {
   _id: string;
   name: string;
   owner: string;
   business: string[];
+  credit: number;
+}
+
+export interface IProjectPopulated {
+  _id: string;
+  name: string;
+  owner: string;
+  business: IBusiness[];
   credit: number;
 }
 
