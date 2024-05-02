@@ -9,7 +9,7 @@ export const businessSchema = z.object({
   project: z.string(),
   description: z.string(),
   status: z.string(),
-  workers: z.array(z.string()),
+  workers: z.array(z.string()).optional(),
   address: z.string(),
   municipality: z.string(),
   phone: z.string(),

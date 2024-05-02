@@ -5,6 +5,7 @@ import { hashPassword } from "@/functions/api/password.hash";
 import { parseServerResponse } from "@/libs/utils";
 import mongoose from "mongoose";
 import { revalidateTag } from "next/cache";
+import { TAdminZod } from "../validators/user.zod";
 
 export async function getUsers() {
   try {
@@ -57,10 +58,30 @@ export async function userHasProject(email: string) {
   }
 }
 
-export async function registerUser(data: Omit<IUser, "_id">) {
+export async function registerAdmin(data: TAdminZod) {
+  const passwordHashed = await hashPassword(data.password);
   try {
-    const passwordHashed = await hashPassword(data.password);
+    await mongoose.connect(process.env.MONGODB_URI ?? "");
+    const res = await UserModel.create({ ...data, password: passwordHashed });
 
+    if (!res) {
+      return { success: false, message: "Error al registrar usuario" };
+    }
+
+    revalidateTag("users");
+    return { success: true, message: "Usuario registrado satisfactoriamente" };
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: "Ha ocurrido un error" };
+  }
+}
+
+export async function registerUser(data: Partial<IUser>) {
+  try {
+    if (!data?.password) {
+      return { success: false, message: "Debe enviar una contraseña" };
+    }
+    const passwordHashed = await hashPassword(data.password);
     await mongoose.connect(process.env.MONGODB_URI ?? "");
     const res = await UserModel.create({ ...data, password: passwordHashed });
 

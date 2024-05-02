@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { editUserInput } from "@/constants/inputs";
 import { updateUser } from "@/services/actions/user.actions";
-import { userToEditSchema } from "@/services/validators/user.zod";
+import { workerToEditSchema } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -27,7 +27,7 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm<Inputs>({
-    resolver: zodResolver(userToEditSchema),
+    resolver: zodResolver(workerToEditSchema),
     defaultValues: {
       name: user.name,
       username: user.username,

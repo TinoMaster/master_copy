@@ -13,7 +13,10 @@ import { Schedule } from "./Schedule";
 import { ShareOption } from "./ShareOption";
 import { useRef } from "react";
 import toast from "react-hot-toast";
-import { updateBusiness } from "@/services/actions/business.actions";
+import {
+  deleteBusiness,
+  updateBusiness,
+} from "@/services/actions/business.actions";
 
 type Inputs = {
   name: string;
@@ -66,6 +69,17 @@ export function FormBusiness({
     }
   };
 
+  const onDelete = async () => {
+    toast.loading("Eliminando negocio...");
+    const response = await deleteBusiness(business._id, business.project);
+    toast.dismiss();
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <h3 className="mini-title">{name}</h3>
@@ -78,7 +92,7 @@ export function FormBusiness({
           setValue={setValue}
           clearErrors={clearErrors}
         />
-        <div className="flex justify-end relative">
+        <div className="flex justify-end relative gap-2">
           {/* Errors */}
           <p className="text-red-500 absolute left-0">
             {Object.entries(errors).length > 0 &&
@@ -90,6 +104,9 @@ export function FormBusiness({
             className="bg-primary"
           >
             Guardar
+          </Button>
+          <Button type="button" className="bg-red-500" onClick={onDelete}>
+            Eliminar negocio
           </Button>
         </div>
       </div>

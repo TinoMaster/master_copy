@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createUserInput } from "@/constants/inputs";
 import { registerUser } from "@/services/actions/user.actions";
-import { userSchema } from "@/services/validators/user.zod";
+import { workerSchema } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -29,13 +29,13 @@ export const FormCreateUser = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(workerSchema),
   });
   const formRef = useRef<HTMLFormElement>(null);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     toast.loading("Creando usuario...");
-    const dataToSend: Omit<IUser, "_id"> = {
+    const dataToSend: Partial<IUser> = {
       name: data.name,
       username: data.username,
       email: data.email,

@@ -18,8 +18,8 @@ export const projectSchema = z.object({
     ),
 });
 
-export type TProject = z.infer<typeof projectSchema>;
+export type TProjectZod = z.infer<typeof projectSchema>;
 
-export const validateProject = (project: TProject) => {
+export const validateProject = (project: TProjectZod) => {
   return projectSchema.safeParse(project);
 };

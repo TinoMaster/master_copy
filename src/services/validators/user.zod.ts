@@ -2,7 +2,16 @@ import { z } from "zod";
 
 const roles = ["admin", "user", "worker"] as const;
 
-export const userSchema = z
+export const adminSchema = z.object({
+  email: z.string().min(1, "El correo es requerido").email("Correo inválido"),
+  username: z
+    .string()
+    .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+  role: z.enum(roles),
+});
+
+export const workerSchema = z
   .object({
     name: z
       .string()
@@ -45,7 +54,7 @@ export const userSchema = z
     path: ["confirmPassword"],
   });
 
-export const userToEditSchema = z.object({
+export const workerToEditSchema = z.object({
   name: z
     .string()
     .min(3, "El nombre debe tener al menos 3 caracteres")
@@ -75,9 +84,6 @@ export const userToEditSchema = z.object({
   }),
 });
 
-export type TCreateUserZod = z.infer<typeof userSchema>;
-export type TUserToEditZod = z.infer<typeof userToEditSchema>;
-
-export const validateUser = (data: TCreateUserZod) => {
-  return userSchema.safeParse(data);
-};
+export type TAdminZod = z.infer<typeof adminSchema>;
+export type TWorkerZod = z.infer<typeof workerSchema>;
+export type TWorkerToEditZod = z.infer<typeof workerToEditSchema>;

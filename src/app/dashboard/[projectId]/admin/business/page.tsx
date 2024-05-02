@@ -1,4 +1,5 @@
 import { BusinessOptions } from "@/components/pages/admin/business/business-options";
+import { ButtonAddBusiness } from "@/components/pages/admin/business/ButtonAddBusiness";
 import { ErrorPage } from "@/components/shared/ErrorPage";
 import { authOptions } from "@/libs/authOptions";
 import { getBusinessByOwner } from "@/services/actions/business.actions";
@@ -18,12 +19,15 @@ const BusinessPage = async () => {
     <div className="small-container">
       <section className="w-full space-y-6">
         <div>
-          <div className="mb-4">
-            <h3 className="title">Tus Negocios</h3>
-            <p className="subtitle">
-              Aquí puedes configurar todos los permisos de cada uno de tus
-              negocios.
-            </p>
+          <div className="mb-4 items-start justify-between sm:flex">
+            <div>
+              <h3 className="title">Tus Negocios</h3>
+              <p className="subtitle">
+                Aquí puedes configurar todos los permisos de cada uno de tus
+                negocios.
+              </p>
+            </div>
+            <ButtonAddBusiness />
           </div>
           <BusinessOptions business={business} />
         </div>

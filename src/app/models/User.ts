@@ -1,12 +1,12 @@
 import { model, models, Schema } from "mongoose";
 
-export interface IUser {
+export interface IUser extends Document {
   _id: string;
-  name?: string;
-  username: string;
   email: string;
+  username: string;
   password: string;
   role: string;
+  name?: string;
   address?: string;
   municipality?: string;
   CI?: number;
@@ -23,9 +23,9 @@ const UserSchema = new Schema(
       required: true,
       match: [/.+@.+\..+/, "Please enter a valid e-mail address"],
     },
-    address: { type: String, required: true },
     password: { type: String, required: true },
     role: { type: String, required: true },
+    address: { type: String },
     CI: Number,
     name: String,
     municipality: String,
