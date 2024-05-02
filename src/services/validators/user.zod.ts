@@ -2,6 +2,11 @@ import { z } from "zod";
 
 const roles = ["admin", "user", "worker"] as const;
 
+export const loginSchema = z.object({
+  email: z.string().email("Correo inválido"),
+  password: z.string(),
+});
+
 export const adminSchema = z.object({
   email: z.string().min(1, "El correo es requerido").email("Correo inválido"),
   username: z
@@ -84,6 +89,7 @@ export const workerToEditSchema = z.object({
   }),
 });
 
+export type TLoginZod = z.infer<typeof loginSchema>;
 export type TAdminZod = z.infer<typeof adminSchema>;
 export type TWorkerZod = z.infer<typeof workerSchema>;
 export type TWorkerToEditZod = z.infer<typeof workerToEditSchema>;

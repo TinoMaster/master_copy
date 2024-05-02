@@ -8,6 +8,7 @@
     scrollbar-width: thin;
     scrollbar-color: #7d9daf #2b2b2b;
   }
+
   .root {
     @apply flex min-h-screen w-full flex-col lg:flex-row;
   }
@@ -78,6 +79,6 @@
   }
 
   .label {
-    @apply block text-sm font-medium leading-6 text-gray-100 ml-1;
+    @apply block text-sm font-medium leading-6 text-gray-400 ml-1;
   }
 }

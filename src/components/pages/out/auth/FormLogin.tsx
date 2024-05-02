@@ -1,46 +1,48 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { registerAdmin } from "@/services/actions/user.actions";
-import { adminSchema, TAdminZod } from "@/services/validators/user.zod";
+import { userHasProject } from "@/services/actions/user.actions";
+import { loginSchema, TLoginZod } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 type Inputs = {
-  username: string;
   email: string;
   password: string;
-  role: "admin" | "worker" | "user";
 };
 
-export const FormRegister = () => {
+export const FormLogin = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TAdminZod>({
-    resolver: zodResolver(adminSchema),
-    defaultValues: {
-      role: "admin",
-    },
+  } = useForm<TLoginZod>({
+    resolver: zodResolver(loginSchema),
   });
-  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    toast.loading("Creando usuario...");
-    const response = await registerAdmin(data);
+    toast.loading("Iniciando sesión...");
+    const res = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+    toast.remove();
 
-    toast.dismiss();
+    if (res?.ok) {
+      toast.success("Sesión iniciada con éxito");
+      const response = await userHasProject(data.email);
 
-    if (response.success) {
-      toast.success(response.message);
-      push("/login");
+      if (!response.success) {
+        window.location.href = "/";
+      } else {
+        window.location.href = `/dashboard/${response.data}`;
+      }
     } else {
-      toast.error(response.message);
+      toast.error("Usuario o contraseña incorrectos");
     }
   };
 
@@ -51,29 +53,14 @@ export const FormRegister = () => {
           <div className="mt-5">
             <div className="w-20 h-20 rounded-full mx-auto bg-gray-400 mb-5"></div>
             <h3 className="text-gray-400 text-2xl font-bold sm:text-3xl">
-              Registre una cuenta
+              Iniciar sesión
             </h3>
             <p className="mt-4 text-gray-400">
-              Crea una cuenta para comenzar a usar Copy Manager.
+              Inicia sesión para comenzar a usar Copy Manager.
             </p>
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <div className="space-y-2 relative">
-            <label htmlFor="username" className="font-medium">
-              Nombre de usuario
-            </label>
-            <Input
-              id="username"
-              type="text"
-              required
-              className="input"
-              {...register("username")}
-            />
-            <p className="text-xs text-red-500 absolute -bottom-5 left-2">
-              {errors.username?.message}
-            </p>
-          </div>
           <div className="space-y-2">
             <label htmlFor="email" className="font-medium">
               Correo
@@ -104,11 +91,31 @@ export const FormRegister = () => {
               {errors.password?.message}
             </p>
           </div>
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center gap-x-3">
+              <input
+                type="checkbox"
+                id="remember-me"
+                className="checkbox-item peer hidden"
+              />
+              <label
+                htmlFor="remember-me"
+                className="relative flex w-5 h-5 bg-white peer-checked:bg-pri-600 rounded-md border ring-offset-2 ring-pri-600 duration-150 peer-active:ring cursor-pointer after:absolute after:inset-x-0 after:top-[3px] after:m-auto after:w-1.5 after:h-2.5 after:border-r-2 after:border-b-2 after:border-white after:rotate-45"
+              ></label>
+              <span>Recordarme</span>
+            </div>
+            <Link
+              href="javascript:void(0)"
+              className="text-center text-pri-600 hover:text-pri-500"
+            >
+              Olvide mi contraseña
+            </Link>
+          </div>
           <Button
             type="submit"
             className="w-full bg-primary/80 hover:bg-primary"
           >
-            Crear cuenta
+            Iniciar sesión
           </Button>
         </form>
         <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100">
@@ -144,13 +151,13 @@ export const FormRegister = () => {
           </svg>
           Continuar con Google
         </button>
-        <p className="flex justify-center gap-1">
-          <p>Ya tienes una cuenta?</p>
+        <p className="flex gap-1 justify-center">
+          <p>No tienes cuenta?</p>
           <Link
-            href="/login"
+            href="/register"
             className="font-medium text-pri-600 hover:text-pri-500"
           >
-            Iniciar sesión
+            Registrarse
           </Link>
         </p>
       </div>

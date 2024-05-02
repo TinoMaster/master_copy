@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createBusinessInput } from "@/constants/inputs";
 import { createProject } from "@/services/actions/project.actions";
-import { projectSchema } from "@/services/validators/project.zod";
+import { projectSchema, TProjectZod } from "@/services/validators/project.zod";
 import { CreateFirstProject } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -18,17 +18,24 @@ type Inputs = {
   description: string;
   address: string;
   municipality: string;
-  phone: string;
+  statisticPermission: boolean;
+  phone?: string;
+  status: string;
 };
 
 export const FormCreateProject = ({ userId }: { userId: string }) => {
   const { data: session, update } = useSession();
+  const { push } = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<TProjectZod>({
     resolver: zodResolver(projectSchema),
+    defaultValues: {
+      status: "active",
+      statisticPermission: false,
+    },
   });
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -43,6 +50,7 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
       phone: data.phone,
       owner: userId,
       status: "active",
+      statisticPermission: data.statisticPermission,
     };
     const response = await createProject(dataToSend);
     toast.dismiss();
@@ -56,7 +64,7 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
         ...session,
         user: { ...session?.user, project: response.projectId },
       });
-      redirect(`/dashboard/${response.projectId}`);
+      push(`/dashboard/${response.projectId}`);
     }
   };
 
@@ -157,8 +165,8 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
                 <div className="sm:col-span-3 relative flex gap-2">
                   <input
                     type="checkbox"
-                    name="statisticPermission"
                     id="accept-share"
+                    {...register("statisticPermission")}
                   />
                   <label htmlFor="accept-share" className="text-gray-200">
                     Aceptar compartir

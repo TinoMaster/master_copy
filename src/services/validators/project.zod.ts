@@ -16,10 +16,8 @@ export const projectSchema = z.object({
       },
       { message: "Celular invalido" }
     ),
+  status: z.string(),
+  statisticPermission: z.boolean(),
 });
 
 export type TProjectZod = z.infer<typeof projectSchema>;
-
-export const validateProject = (project: TProjectZod) => {
-  return projectSchema.safeParse(project);
-};

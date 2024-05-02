@@ -158,6 +158,42 @@ export const editBusinessInput: TInput[] = createBusinessInput.filter(
   (input) => input.type !== "password"
 );
 
+export const ownerInput: TInput[] = [
+  {
+    id: "username_item",
+    label: "Nombre de Usuario",
+    labelClass: "label",
+    type: "text",
+    placeholder: "Ej: oscar123",
+    name: "username",
+    editable: true,
+    containerClass: "sm:col-span-4",
+    inputClass: "input",
+  },
+  {
+    id: "email_item",
+    label: "Correo",
+    labelClass: "label",
+    type: "email",
+    placeholder: "Ej: 9sRFP@example.com",
+    name: "email",
+    editable: true,
+    containerClass: "sm:col-span-4",
+    inputClass: "input",
+  },
+  {
+    id: "phone_item",
+    label: "Telefono",
+    labelClass: "label",
+    type: "text",
+    placeholder: "Ej: 123456789",
+    name: "phone",
+    editable: true,
+    containerClass: "sm:col-span-4",
+    inputClass: "input",
+  },
+];
+
 export const editUserInput: TInput[] = createUserInput.filter(
   (input) => input.type !== "password"
 );
