@@ -97,10 +97,7 @@ export async function registerUser(data: Partial<IUser>) {
   }
 }
 
-export async function updateUser(
-  id: string,
-  data: Omit<IUser, "_id" | "password">
-) {
+export async function updateUser(id: string, data: Partial<IUser>) {
   try {
     await mongoose.connect(process.env.MONGODB_URI ?? "");
     const res = await UserModel.findByIdAndUpdate(id, data);

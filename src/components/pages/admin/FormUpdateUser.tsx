@@ -43,7 +43,7 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     toast.loading("Actualizando usuario...");
-    const dataToEdit: Omit<IUser, "_id" | "password"> = {
+    const dataToEdit: Partial<IUser> = {
       name: data.name,
       username: data.username,
       email: data.email,
