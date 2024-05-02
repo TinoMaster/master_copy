@@ -1,5 +1,5 @@
 import { Switch } from "@/components/ui/switch";
-import React from "react";
+import { TBusinessUpdateZod } from "@/services/validators/business.zod";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
 export const ShareOption = ({
@@ -8,12 +8,8 @@ export const ShareOption = ({
   setValue,
 }: {
   index: number;
-  getValues: UseFormGetValues<{
-    statisticPermission: boolean;
-  }>;
-  setValue: UseFormSetValue<{
-    statisticPermission: boolean;
-  }>;
+  getValues: UseFormGetValues<TBusinessUpdateZod>;
+  setValue: UseFormSetValue<TBusinessUpdateZod>;
 }) => {
   return (
     <div className="space-y-10">
@@ -32,7 +28,7 @@ export const ShareOption = ({
           id="statisticPermission"
           defaultChecked={getValues("statisticPermission")}
           onCheckedChange={(val) => {
-            setValue("statisticPermission", val);
+            setValue("statisticPermission", val, { shouldDirty: true });
           }}
           className="data-[state=checked]:bg-green-600/80 "
         />

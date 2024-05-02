@@ -1,3 +1,4 @@
+import { initialSchedules } from "@/constants";
 import { model, models, Schema } from "mongoose";
 
 export interface IBusiness extends Document {
@@ -26,13 +27,16 @@ const BusinessSchema: Schema = new Schema(
     address: String,
     municipality: String,
     phone: String,
-    schedules: [
-      {
-        day: String,
-        openingTime: String,
-        closingTime: String,
-      },
-    ],
+    schedules: {
+      type: [
+        {
+          day: String,
+          openingTime: String,
+          closingTime: String,
+        },
+      ],
+      default: initialSchedules,
+    },
     statisticPermission: { type: Boolean, default: false },
   },
   {

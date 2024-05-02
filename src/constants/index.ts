@@ -1,3 +1,4 @@
+import { ISchedule } from "@/components/pages/admin/business/business-options/form-business/Schedule";
 import { TLink } from "@/types";
 import { AiOutlineShop } from "react-icons/ai";
 import { FaHome } from "react-icons/fa";
@@ -166,4 +167,52 @@ export const dayHours = [
   "23:30",
   "23:45",
   "24:00",
+];
+
+export const initialSchedules: ISchedule[] = [
+  {
+    day: "Lunes",
+    openingTime: "00:00",
+    closingTime: "00:00",
+  },
+  {
+    day: "Martes",
+    openingTime: "00:00",
+    closingTime: "00:00",
+  },
+  {
+    day: "Miércoles",
+    openingTime: "00:00",
+    closingTime: "00:00",
+  },
+  {
+    day: "Jueves",
+    openingTime: "00:00",
+    closingTime: "00:00",
+  },
+  {
+    day: "Viernes",
+    openingTime: "00:00",
+    closingTime: "00:00",
+  },
+  {
+    day: "Sábado",
+    openingTime: "00:00",
+    closingTime: "00:00",
+  },
+  {
+    day: "Domingo",
+    openingTime: "00:00",
+    closingTime: "00:00",
+  },
+];
+
+export const daysOfTheWeek = [
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+  "Domingo",
 ];

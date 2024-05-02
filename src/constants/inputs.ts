@@ -154,6 +154,10 @@ export const createBusinessInput: TInput[] = [
   },
 ];
 
+export const editBusinessInput: TInput[] = createBusinessInput.filter(
+  (input) => input.type !== "password"
+);
+
 export const editUserInput: TInput[] = createUserInput.filter(
   (input) => input.type !== "password"
 );

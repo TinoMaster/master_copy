@@ -3,6 +3,7 @@
 import { BusinessModel, IBusiness } from "@/app/models/BusinessSchema";
 import { parseServerResponse } from "@/libs/utils";
 import mongoose from "mongoose";
+import { revalidateTag } from "next/cache";
 
 export async function getBusinessByOwner(ownerId: string) {
   try {
@@ -19,11 +20,12 @@ export async function updateBusiness(
   businessId: string,
   data: Partial<IBusiness>
 ) {
-  console.log(data);
   try {
     await mongoose.connect(process.env.MONGODB_URI ?? "");
     await BusinessModel.findByIdAndUpdate(businessId, data);
 
+    revalidateTag("business");
+    revalidateTag("project");
     return { success: true, message: "Negocio actualizado con éxito" };
   } catch (error) {
     console.log(error);

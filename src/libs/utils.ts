@@ -32,13 +32,16 @@ export function parseServerResponse<T>(response: T) {
 }
 
 export function lowerHourRange(schedule: string, schedulesArray: string[]) {
-  const hour = schedule.split(":").join("");
-  return schedulesArray.filter((item) => {
-    const itemHour = item.split(":").join("");
-    if (parseInt(hour) > parseInt(itemHour)) {
-      return true;
-    }
-  });
+  if (schedule !== "00:00") {
+    const hour = schedule.split(":").join("");
+    return schedulesArray.filter((item) => {
+      const itemHour = item.split(":").join("");
+      if (parseInt(hour) > parseInt(itemHour)) {
+        return true;
+      }
+    });
+  }
+  return schedulesArray;
 }
 export function higherHourRange(schedule: string, schedulesArray: string[]) {
   const hour = schedule.split(":").join("");
