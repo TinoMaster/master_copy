@@ -4,6 +4,7 @@ import { ProfileProject } from "@/components/pages/admin/project/Profile";
 import { ErrorPage } from "@/components/shared/ErrorPage";
 import { authOptions } from "@/libs/authOptions";
 import { getProject } from "@/services/actions/project.actions";
+import { getUser } from "@/services/actions/user.actions";
 import { getServerSession } from "next-auth";
 
 const AdminPrincipalPage = async () => {
@@ -12,7 +13,8 @@ const AdminPrincipalPage = async () => {
     return <ErrorPage />;
   }
   const project = await getProject(session.user.project as string);
-  if (!project) {
+  const user = await getUser(session.user.sub as string);
+  if (!project || !user) {
     return <ErrorPage />;
   }
 
@@ -30,7 +32,7 @@ const AdminPrincipalPage = async () => {
         </div>
       </section>
       <ProfileProject project={project} />
-      <Owner />
+      <Owner user={user} />
     </div>
   );
 };

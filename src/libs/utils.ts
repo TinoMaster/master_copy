@@ -1,3 +1,4 @@
+import { Role } from "@/services/validators/user.zod";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -52,4 +53,15 @@ export function higherHourRange(schedule: string, schedulesArray: string[]) {
       return true;
     }
   });
+}
+
+export function convertRoleToSpanish(role: Role) {
+  switch (role) {
+    case "admin":
+      return "Administrador";
+    case "user":
+      return "Usuario";
+    case "worker":
+      return "Trabajador";
+  }
 }

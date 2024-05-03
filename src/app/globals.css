@@ -23,7 +23,7 @@
     @apply max-w-720p m-auto w-11/12 overflow-hidden;
   }
   .small-container {
-    @apply max-w-2xl mx-auto;
+    @apply max-w-3xl mx-auto;
   }
 
   .title {

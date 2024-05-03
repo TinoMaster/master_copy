@@ -1,3 +1,4 @@
+import { Role } from "@/services/validators/user.zod";
 import { model, models, Schema } from "mongoose";
 
 export interface IUser extends Document {
@@ -5,7 +6,7 @@ export interface IUser extends Document {
   email: string;
   username: string;
   password: string;
-  role: string;
+  role: Role;
   name?: string;
   address?: string;
   municipality?: string;

@@ -1,18 +1,21 @@
 "use client";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navLinks } from "@/constants";
+import { cutPathnameByPieces, initialRoute } from "@/libs/utils";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { IoSettingsOutline } from "react-icons/io5";
 import { RiMenu3Fill } from "react-icons/ri";
 import { Logo } from "./Logo";
-import { IoSettingsOutline } from "react-icons/io5";
 import { Profile } from "./Profile";
-import { useSession } from "next-auth/react";
-import { cutPathnameByPieces } from "@/libs/utils";
+import { useState } from "react";
 
 const MobileNav = () => {
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const route = cutPathnameByPieces(pathname, 1, 2);
+  const route = cutPathnameByPieces(pathname, 3, 4);
+  const initialPath = initialRoute(pathname);
   const { data: session } = useSession();
   return (
     <header className="flex justify-between items-center fixed h-16 w-full p-5 lg:hidden bg-gradient-to-tr from-darkMode via-lightDarkMode to-darkMode z-40">
@@ -21,11 +24,14 @@ const MobileNav = () => {
       </Link>
 
       <nav className="flex gap-2">
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger>
             <RiMenu3Fill className="text-3xl" />
           </SheetTrigger>
-          <SheetContent className="sheet-content sm:w-64 bg-gradient-to-tr from-darkMode via-lightDarkMode to-darkMode">
+          <SheetContent
+            onClick={() => setOpen(false)}
+            className="sheet-content sm:w-64 bg-gradient-to-tr from-darkMode via-lightDarkMode to-darkMode"
+          >
             <>
               <Logo />
               <ul className="header-nav_elements">
@@ -43,7 +49,7 @@ const MobileNav = () => {
                     >
                       <Link
                         className="sidebar-link cursor-pointer"
-                        href={link.route}
+                        href={`${initialPath}${link.route}`}
                       >
                         {link.icon && <link.icon className="text-3xl" />}
                         {link.title}
@@ -59,7 +65,10 @@ const MobileNav = () => {
                         : "hover:bg-primary/10"
                     } p-18 flex whitespace-nowrap text-dark-700`}
                   >
-                    <Link className="sidebar-link cursor-pointer" href="/admin">
+                    <Link
+                      className="sidebar-link cursor-pointer"
+                      href={`${initialPath}/admin`}
+                    >
                       <IoSettingsOutline className="text-3xl" />
                       Panel Administrador
                     </Link>

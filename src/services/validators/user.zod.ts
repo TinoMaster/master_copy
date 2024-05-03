@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+export type Role = "admin" | "user" | "worker";
 const roles = ["admin", "user", "worker"] as const;
 
 export const loginSchema = z.object({
@@ -14,6 +15,24 @@ export const adminSchema = z.object({
     .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
   role: z.enum(roles),
+});
+
+export const editAdminSchema = z.object({
+  username: z
+    .string()
+    .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
+  email: z.string().email("Correo inválido"),
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (value) => {
+        if (!value) return true;
+        const regex = /^\d{8}$/;
+        return regex.test(value);
+      },
+      { message: "Celular invalido" }
+    ),
 });
 
 export const workerSchema = z
@@ -91,5 +110,6 @@ export const workerToEditSchema = z.object({
 
 export type TLoginZod = z.infer<typeof loginSchema>;
 export type TAdminZod = z.infer<typeof adminSchema>;
+export type TEditAdminZod = z.infer<typeof editAdminSchema>;
 export type TWorkerZod = z.infer<typeof workerSchema>;
 export type TWorkerToEditZod = z.infer<typeof workerToEditSchema>;

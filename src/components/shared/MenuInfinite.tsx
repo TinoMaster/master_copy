@@ -37,14 +37,14 @@ export const MenuInfinite = ({
     <motion.header
       ref={element}
       whileTap={{ cursor: "grabbing" }}
-      className="flex w-full bg-gradient-to-b from-white/5 to-white/10 rounded-md overflow-hidden relative py-4 mb-4 lg:mb-10 px-2"
+      className="flex w-full rounded-md overflow-hidden relative py-4 mb-4 lg:mb-10 px-2"
     >
       <motion.nav
         drag="x"
         dragConstraints={{ right: 0, left: -width }}
-        className={`flex w-max min-w-full gap-4 lg:gap-7 cursor-grab mx-auto ${
+        className={`flex w-max min-w-full gap-4 lg:gap-7 cursor-grab mx-auto justify-center ${
           position === "center" ? "md:justify-center" : "md:justify-end"
-        } `}
+        }`}
       >
         {links.map(({ route, title }) => (
           <Link

@@ -19,6 +19,20 @@ export async function getUsers() {
   }
 }
 
+export async function getUsersByProject(projectId: string, owner: string) {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI ?? "");
+    const res = await UserModel.find({ project: projectId });
+    const users = res.filter(
+      (user) => JSON.parse(JSON.stringify(user._id)) !== owner
+    );
+    return parseServerResponse<IUser[]>(users);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
 export async function getUser(id: string) {
   try {
     await mongoose.connect(process.env.MONGODB_URI ?? "");
@@ -108,6 +122,18 @@ export async function updateUser(id: string, data: Partial<IUser>) {
 
     revalidateTag("users");
     return { success: true, message: "Usuario Editado" };
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: "Ha ocurrido un error inesperado" };
+  }
+}
+
+export async function deleteUser(userId: string) {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI ?? "");
+    await UserModel.findByIdAndDelete(userId);
+    revalidateTag("users");
+    return { success: true, message: "Usuario eliminado" };
   } catch (error) {
     console.log(error);
     return { success: false, message: "Ha ocurrido un error inesperado" };

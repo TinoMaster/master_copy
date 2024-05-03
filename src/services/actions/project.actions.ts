@@ -70,3 +70,18 @@ export async function getProject(projectId: string) {
     return false;
   }
 }
+
+export async function updateProject(
+  projectId: string,
+  data: Partial<IProject>
+) {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI ?? "");
+    await ProjectModel.findByIdAndUpdate(projectId, data);
+    revalidateTag("project");
+    return { success: true, message: "Usuario actualizado correctamente" };
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: "Ah ocurrido un error" };
+  }
+}

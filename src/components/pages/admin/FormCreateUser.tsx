@@ -3,10 +3,12 @@ import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createUserInput } from "@/constants/inputs";
+import { initialRoute } from "@/libs/utils";
 import { registerUser } from "@/services/actions/user.actions";
-import { workerSchema } from "@/services/validators/user.zod";
+import { Role, TWorkerZod, workerSchema } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useRef } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -20,18 +22,21 @@ type Inputs = {
   municipality: string;
   CI: string;
   phone: string;
-  role: string;
+  role: Role;
 };
 
-export const FormCreateUser = () => {
+export const FormCreateUser = ({ projectId }: { projectId: string }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<TWorkerZod>({
     resolver: zodResolver(workerSchema),
   });
+  const pathname = usePathname();
+  const initialPath = initialRoute(pathname);
   const formRef = useRef<HTMLFormElement>(null);
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     toast.loading("Creando usuario...");
@@ -41,6 +46,7 @@ export const FormCreateUser = () => {
       email: data.email,
       password: data.password,
       address: data.address,
+      project: projectId,
       municipality: data.municipality,
       CI: Number(data.CI),
       phone: data.phone,
@@ -52,6 +58,7 @@ export const FormCreateUser = () => {
     if (response.success) {
       toast.success(response.message);
       formRef.current?.reset();
+      push(`${initialPath}/admin/users`);
     } else {
       toast.error(response.message);
     }

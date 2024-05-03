@@ -73,6 +73,21 @@ export const linksAdminPanel: TLink[] = [
   },
 ];
 
+export const linksCashierPanel: TLink[] = [
+  {
+    title: "Copias",
+    route: "/cashier",
+  },
+  {
+    title: "Tienda",
+    route: "/cashier/shop",
+  },
+  {
+    title: "Insumos",
+    route: "/cashier/inventory",
+  },
+];
+
 export const dayHours = [
   "01:00",
   "01:15",

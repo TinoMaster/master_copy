@@ -3,9 +3,11 @@ import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { editUserInput } from "@/constants/inputs";
-import { updateUser } from "@/services/actions/user.actions";
-import { workerToEditSchema } from "@/services/validators/user.zod";
+import { initialRoute } from "@/libs/utils";
+import { deleteUser, updateUser } from "@/services/actions/user.actions";
+import { Role, workerToEditSchema } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
 import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -18,7 +20,7 @@ type Inputs = {
   municipality: string;
   CI: string;
   phone: string;
-  role: string;
+  role: Role;
 };
 
 export const FormUpdateUser = ({ user }: { user: IUser }) => {
@@ -40,6 +42,9 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
     },
   });
   const formRef = useRef<HTMLFormElement>(null);
+  const pathname = usePathname();
+  const initialPath = initialRoute(pathname);
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     toast.loading("Actualizando usuario...");
@@ -58,6 +63,18 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
     toast.dismiss();
     if (response.success) {
       toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
+  const onDelete = async () => {
+    toast.loading("Eliminando usuario...");
+    const response = await deleteUser(user._id);
+    toast.dismiss();
+    if (response.success) {
+      toast.success(response.message);
+      push(`${initialPath}/admin/users`);
     } else {
       toast.error(response.message);
     }
@@ -167,8 +184,12 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">
-        <Button type="reset" className="bg-red-500/80 hover:bg-red-500">
-          Cancelar
+        <Button
+          onClick={onDelete}
+          type="button"
+          className="bg-red-500/80 hover:bg-red-500"
+        >
+          Eliminar
         </Button>
         <Button
           type="submit"
