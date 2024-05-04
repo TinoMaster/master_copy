@@ -54,7 +54,7 @@ const config = {
       },
       maxWidth: {
         "1080p": "1920px",
-        "720p": "1280px",
+        "720p": "1400px",
       },
       keyframes: {
         "accordion-down": {
