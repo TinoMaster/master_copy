@@ -42,15 +42,15 @@ const Sidebar = () => {
                   key={link.route}
                   className={`sidebar-nav_element group ${
                     isActive
-                      ? "bg-gray-50 text-gray-700"
-                      : "hover:bg-primary/10"
+                      ? "bg-primary text-gray-200"
+                      : "hover:bg-primary/10 text-gray-500"
                   }`}
                 >
                   <Link
                     className="sidebar-link"
                     href={`${initialPath}${link.route}`}
                   >
-                    {link.icon && <link.icon className="text-3xl" />}
+                    {link.icon && <link.icon className="text-2xl" />}
                     {link.title}
                   </Link>
                 </li>
@@ -67,7 +67,7 @@ const Sidebar = () => {
                   key={link.route}
                   className={`sidebar-nav_element group ${
                     isActive
-                      ? "bg-gray-50 text-gray-700"
+                      ? "bg-primary text-gray-200"
                       : "hover:bg-primary/10"
                   }`}
                 >
@@ -95,7 +95,7 @@ const Sidebar = () => {
                 </Link>
               </li>
             ) : null}
-            <li className="flex items-center cursor-pointer gap-2 p-4 bg-gradient-to-tr from-darkMode via-lightDarkMode to-darkMode w-full rounded-full mt-3">
+            <li className="flex items-center cursor-pointer gap-2 p-4 bg-darkMode/5 w-full rounded-full mt-3">
               <Profile />
             </li>
           </ul>

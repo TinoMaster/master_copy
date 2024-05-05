@@ -15,7 +15,7 @@ export const Logo = ({
 
       {withText && (
         <div className="">
-          <span className="text-2xl font-bold text-white">Copy Master</span>
+          <span className="text-2xl font-bold text-primary">Copy Master</span>
 
           {withProjectName && <LogoProjectName name={name ?? "Proyecto"} />}
         </div>

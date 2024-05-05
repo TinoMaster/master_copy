@@ -5,10 +5,10 @@ const WelcomePage = () => {
       <section className="relative">
         <div className="relative z-10 max-w-screen-xl mx-auto px-4 py-10 lg:py-28 md:px-8">
           <div className="space-y-5 max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl text-white font-extrabold mx-auto md:text-5xl">
+            <h2 className="text-4xl text-gray-700 font-extrabold mx-auto md:text-5xl">
               Lleva tu negocio de copias al siguiente nivel
             </h2>
-            <p className="max-w-2xl mx-auto text-gray-400">
+            <p className="max-w-2xl mx-auto text-gray-500">
               Todo lo que necesitas para tener el control total de tu negocio de
               copias en un solo lugar y de forma segura.
             </p>

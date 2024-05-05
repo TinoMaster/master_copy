@@ -31,7 +31,15 @@
   }
 
   .mini-title {
-    @apply text-base font-semibold leading-7 text-gray-100;
+    @apply text-base font-semibold leading-7;
+  }
+
+  .head-title-banner {
+    @apply text-xs font-semibold uppercase px-2 shadow-md shadow-pri-200/50 rounded-md;
+  }
+
+  .title-banner {
+    @apply text-xl font-semibold;
   }
 
   .mini-subtitle {
@@ -51,7 +59,7 @@
   }
 
   .sidebar {
-    @apply hidden h-screen lg:w-72 xl:w-80 p-5 shadow-md shadow-pri-200/50 lg:flex bg-pri-900/10;
+    @apply hidden h-screen lg:w-72 xl:w-80 p-5 shadow-md shadow-pri-200/50 lg:flex bg-pri-500/5;
   }
 
   .sidebar-nav {

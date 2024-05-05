@@ -28,7 +28,7 @@ export const NavbarLink = ({ link }: NavbarLinkProps) => {
           className="absolute w-full h-full border-b-2"
         ></motion.div>
       ) : null}
-      <Link href={`${route}`} className="">
+      <Link href={`${route}`} className="text-gray-700 font-semibold">
         {title}
       </Link>
     </li>

@@ -65,3 +65,10 @@ export function convertRoleToSpanish(role: Role) {
       return "Trabajador";
   }
 }
+
+export function formatPrice(price: number) {
+  return new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "CUP",
+  }).format(price);
+}
