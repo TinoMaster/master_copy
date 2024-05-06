@@ -5,11 +5,11 @@ const HomePage = () => {
     <div className="grid 2xl:grid-cols-2 lg:grid-rows-2 gap-4 w-full h-screen">
       <FirstBox />
       {/* Second Box */}
-      <div className="bg-blue-500/10"></div>
+      <div className="bg-gray-500/5"></div>
       {/* Third Box */}
-      <div className="bg-green-500/10"></div>
+      <div className="bg-gray-500/5"></div>
       {/* Fourth Box */}
-      <div className="bg-yellow-500/10"></div>
+      <div className="bg-gray-500/5"></div>
     </div>
   );
 };

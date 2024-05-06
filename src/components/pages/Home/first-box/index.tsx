@@ -8,7 +8,9 @@ export const FirstBox = () => {
         <Profits />
         <SellsStatistics />
       </div>
-      <div className="bg-green-500/10"></div>
+      <div className="bg-green-500/10">
+        
+      </div>
     </div>
   );
 };

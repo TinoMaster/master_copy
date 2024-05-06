@@ -79,12 +79,12 @@ export const linksCashierPanel: TLink[] = [
     route: "/cashier",
   },
   {
-    title: "Tienda",
-    route: "/cashier/shop",
+    title: "Insumos",
+    route: "/cashier/supplies",
   },
   {
-    title: "Insumos",
-    route: "/cashier/inventory",
+    title: "Tienda",
+    route: "/cashier/shop",
   },
 ];
 

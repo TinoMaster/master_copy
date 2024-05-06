@@ -35,7 +35,7 @@
   }
 
   .head-title-banner {
-    @apply text-xs font-semibold uppercase px-2 shadow-md shadow-pri-200/50 rounded-md;
+    @apply text-xs font-semibold uppercase;
   }
 
   .title-banner {
@@ -83,7 +83,7 @@
   }
 
   .input {
-    @apply w-full bg-transparent disabled:bg-gray-700/40 disabled:cursor-not-allowed disabled:text-gray-300 placeholder:text-gray-300/30 placeholder:font-light rounded-xl border bg-opacity-40 border-gray-300/40 focus:bg-transparent focus:ring-2 focus:ring-pri-900 focus:border-primary text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out;
+    @apply w-full bg-transparent disabled:bg-gray-700/40 disabled:cursor-not-allowed disabled:text-gray-300 placeholder:text-gray-300/30 placeholder:font-light rounded-xl border bg-opacity-40 border-gray-300/40 focus:bg-transparent focus:ring-1 focus:ring-primary focus:border-primary focus:outline-none text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out;
   }
 
   .label {

@@ -12,7 +12,7 @@ export const SellsStatistics = () => {
         <div className="flex justify-between items-center h-1/2">
           <div className="flex gap-2 items-center">
             <h5 className="mini-title">Mejor Venta:</h5>
-            <small className="bg-white/5 shadow rounded-md p-2">
+            <small className="bg-white/5 outline outline-1 outline-gray-400/30 rounded-md p-2">
               <FaEye className="" />
             </small>
           </div>
