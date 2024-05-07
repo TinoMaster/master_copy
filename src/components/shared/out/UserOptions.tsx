@@ -29,10 +29,10 @@ export const UserOptions = () => {
       )}
       <button
         onClick={() => signOut()}
-        className="flex justify-center bg-darkMode/5 items-center gap-1 p-2 rounded-lg hover:bg-white/90 hover:text-gray-800 transition-colors duration-150"
+        className="flex justify-center text-gray-700 bg-darkMode/5 items-center gap-1 p-2 rounded-lg hover:bg-white/90 hover:text-gray-800 transition-colors duration-150"
       >
-        <RiLogoutCircleLine className="text-lg" />
-        <span className="capitalize text-sm">Logout</span>
+        <RiLogoutCircleLine className="" />
+        <span className="capitalize text-sm">Desconectarse</span>
       </button>
     </>
   );

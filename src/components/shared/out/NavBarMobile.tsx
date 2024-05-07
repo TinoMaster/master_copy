@@ -1,15 +1,14 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { TLink } from "@/types";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { TbMenuDeep } from "react-icons/tb";
 import { NavbarLink } from "./NavbarLink";
-import { TLink } from "@/types";
 import { UserOptions } from "./UserOptions";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { FaUserAlt } from "react-icons/fa";
 
 export const NavBarMobile = ({ links }: { links: TLink[] }) => {
   const { status } = useSession();
@@ -33,10 +32,10 @@ export const NavBarMobile = ({ links }: { links: TLink[] }) => {
         variants={variant}
         initial={isActive ? "open" : "closed"}
         animate={isActive ? "open" : "closed"}
-        className={`w-screen h-svh min-h-[800px] lg:hidden fixed flex flex-col top-0 right-0 text-slate-200 bg-gradient-to-r from-darkMode via-lightDarkMode to-darkMode shadow-md py-2 overflow-hidden`}
+        className={`w-full h-screen lg:hidden fixed flex flex-col top-0 right-0 bg-gray-50 shadow-md py-5 overflow-hidden`}
       >
         <div className="flex w-full flex-col z-10 mt-10 grow">
-          <ul className="flex w-[150vw] -translate-x-[25vw] flex-col text-xl justify-center items-center h-full gap-8 bg-lightDarkMode rounded-t-full">
+          <ul className="flex w-[150vw] -translate-x-[25vw] flex-col text-xl justify-center items-center h-full gap-8 rounded-t-full">
             {links?.map((link) => (
               <NavbarLink key={link.title} link={link} />
             ))}
@@ -55,7 +54,7 @@ export const NavBarMobile = ({ links }: { links: TLink[] }) => {
         </div>
       </motion.div>
       {/* Button section */}
-      <section className={`rounded-l-3xl text-slate-200 z-40`}>
+      <section className={`rounded-l-3xl text-slate-500 z-40`}>
         <div className="lg:pr-5 lg:pl-10 lg:hidden px-3 flex justify-between items-center hover:-translate-x-1 transition-transform">
           <button
             onClick={() => setIsActive(!isActive)}

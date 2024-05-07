@@ -33,7 +33,7 @@ export const User = () => {
     <div>
       <button
         onClick={(e) => toggleMenu(e)}
-        className="w-10 h-10 text-gray-700 flex justify-center items-center font-bold text-2xl bg-white rounded-full"
+        className="w-10 h-10 text-gray-500 flex justify-center items-center font-bold text-2xl bg-primary/10 rounded-full"
       >
         {session.user.username[0].toUpperCase()}
       </button>

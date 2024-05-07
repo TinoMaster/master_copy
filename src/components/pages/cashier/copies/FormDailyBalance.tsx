@@ -27,7 +27,7 @@ export const FormDailyBalance = () => {
           >
             Reiniciar
           </Button>
-          <Button type="submit" className="bg-green-500/80 hover:bg-green-500">
+          <Button type="submit" className="bg-pri-800/80 hover:bg-pri-800">
             Salvar
           </Button>
         </div>

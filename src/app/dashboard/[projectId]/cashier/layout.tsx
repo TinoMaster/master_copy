@@ -1,3 +1,5 @@
+"use client";
+import { LoaderPages } from "@/components/loaders/LoaderPages";
 import { MenuInfinite } from "@/components/shared/MenuInfinite";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,9 +13,15 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { linksCashierPanel } from "@/constants";
+import { useSession } from "next-auth/react";
 import { VscSend } from "react-icons/vsc";
 
 const CashierLayout = ({ children }: { children: React.ReactNode }) => {
+  const { status } = useSession();
+
+  if (status === "loading") {
+    return <LoaderPages />;
+  }
   return (
     <div className="relative flex flex-col justify-between min-h-[calc(100vh-80px)]">
       <div>
@@ -31,22 +39,34 @@ const CashierLayout = ({ children }: { children: React.ReactNode }) => {
         <DrawerTrigger className="w-full flex justify-end pr-6">
           <Button
             variant="outline"
-            className="gap-1 text-lg text-white bg-green-500/80 hover:bg-green-500"
+            className="gap-1 text-lg text-white bg-pri-900/80 hover:bg-pri-900"
           >
             <VscSend className="" />
             <span className="">Resumen</span>
           </Button>
         </DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-            <DrawerDescription>This action cannot be undone.</DrawerDescription>
+        <DrawerContent className="w-full flex flex-col justify-center items-center">
+          <DrawerHeader className="w-full flex flex-col justify-center items-center">
+            <DrawerTitle>Resumen del Cuadre</DrawerTitle>
+            <DrawerDescription>
+              Resumen general de la venta del dia
+            </DrawerDescription>
           </DrawerHeader>
+          <div className="">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Reprehenderit similique neque quidem numquam, optio, ullam
+              voluptates doloremque ipsa in asperiores ab, amet nostrum! Quas
+              molestias earum iusto in! Ipsum, dignissimos?
+            </p>
+          </div>
           <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
+            <div className="w-full flex justify-end gap-2">
+              <Button className="w-20">Guardar</Button>
+              <DrawerClose className="w-20">
+                <Button variant="outline">Cerrar</Button>
+              </DrawerClose>
+            </div>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

@@ -1,4 +1,5 @@
 "use client";
+import { LoaderPages } from "@/components/loaders/LoaderPages";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { userHasProject } from "@/services/actions/user.actions";
@@ -6,6 +7,7 @@ import { loginSchema, TLoginZod } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -15,6 +17,7 @@ type Inputs = {
 };
 
 export const FormLogin = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -24,6 +27,7 @@ export const FormLogin = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
     toast.loading("Iniciando sesión...");
     const res = await signIn("credentials", {
       email: data.email,
@@ -42,12 +46,19 @@ export const FormLogin = () => {
         window.location.href = `/dashboard/${response.data}`;
       }
     } else {
+      setLoading(false);
       toast.error("Usuario o contraseña incorrectos");
     }
   };
 
   return (
-    <main className="w-full h-screen flex flex-col items-center justify-center px-4">
+    <main className="w-full h-screen relative flex flex-col items-center justify-center px-4">
+      {loading && (
+        <div className="absolute w-full h-full z-50">
+          <LoaderPages />
+        </div>
+      )}
+
       <div className="max-w-sm w-full text-gray-400 space-y-5">
         <div className="text-center">
           <div className="mt-5">

@@ -6,11 +6,11 @@ import { FaUserAlt } from "react-icons/fa";
 import { User } from "./User";
 
 export const OutProfile = () => {
-  const { status, data: session } = useSession();
+  const { status } = useSession();
 
   if (status === "loading") {
     return (
-      <div className="w-10 h-10 bg-white/5 rounded-full animate-pulse"></div>
+      <div className="w-10 h-10 bg-black/5 rounded-full animate-pulse"></div>
     );
   }
 
