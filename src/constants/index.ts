@@ -75,7 +75,7 @@ export const linksAdminPanel: TLink[] = [
 
 export const linksCashierPanel: TLink[] = [
   {
-    title: "Copias",
+    title: "Miron",
     route: "/cashier",
   },
   {

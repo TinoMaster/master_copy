@@ -83,7 +83,7 @@ export function FormBusiness({
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <h3 className="mini-title">{name}</h3>
-      <div className="space-y-10 outline outline-1 outline-gray-700 p-5  rounded-md">
+      <div className="space-y-10 outline outline-1 outline-gray-700/10 p-5  rounded-md">
         <ShareOption index={index} getValues={getValues} setValue={setValue} />
         <ProfileBusiness register={register} />
         <Schedule

@@ -75,7 +75,7 @@ const Sidebar = () => {
                     className="sidebar-link"
                     href={`${initialPath}${link.route}`}
                   >
-                    {link.icon && <link.icon />}
+                    {link.icon && <link.icon className="text-2xl" />}
                     {link.title}
                   </Link>
                 </li>
@@ -90,16 +90,14 @@ const Sidebar = () => {
                 }`}
               >
                 <Link className="sidebar-link" href={`${initialPath}/admin`}>
-                  <IoSettingsOutline />
+                  <IoSettingsOutline className="text-2xl" />
                   Panel Administrador
                 </Link>
               </li>
             ) : null}
-            <li className="flex items-center cursor-pointer gap-2 p-4 bg-darkMode/5 w-full rounded-full mt-3">
-              <Profile />
-            </li>
           </ul>
         </nav>
+        <Profile />
       </div>
     </aside>
   );

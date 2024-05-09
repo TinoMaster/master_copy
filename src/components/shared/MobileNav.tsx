@@ -18,7 +18,7 @@ const MobileNav = () => {
   const initialPath = initialRoute(pathname);
   const { data: session } = useSession();
   return (
-    <header className="flex justify-between items-center fixed h-16 w-full p-5 lg:hidden bg-gray-50 z-40 shadow-md">
+    <header className="flex justify-between items-center fixed h-16 w-full p-5 lg:hidden bg-gray-50 shadow z-40">
       <Link href="/" className="flex items-center gap-2 md:py-2">
         <Logo />
       </Link>
@@ -74,10 +74,13 @@ const MobileNav = () => {
                     </Link>
                   </li>
                 ) : null}
-                <li className="sidebar-nav_element group flex items-center cursor-pointer gap-2 p-4 bg-gradient-to-tr from-darkMode/5 via-lightDarkMode/5 to-darkMode/5 w-full rounded-full mt-3">
-                  <Profile />
-                </li>
               </ul>
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="sidebar-nav_element group flex items-center cursor-pointer gap-2 p-4 bg-gradient-to-tr from-darkMode/5 via-lightDarkMode/5 to-darkMode/5 w-full rounded-full mt-3"
+              >
+                <Profile />
+              </button>
             </>
           </SheetContent>
         </Sheet>

@@ -53,7 +53,7 @@ export const MenuInfinite = ({
             className={` ${
               convertPathWithSpacesReverse(path) === route
                 ? "text-gray-100"
-                : "hover:bg-primary/10 hover:text-gray-800"
+                : "hover:bg-primary/10 hover:text-gray-800 opacity-80"
             } uppercase text-sm flex justify-center items-center gap-1 bg-white/5 p-2 rounded-lg relative`}
           >
             {convertPathWithSpacesReverse(path) === route && (
@@ -62,7 +62,7 @@ export const MenuInfinite = ({
                 className="absolute bg-primary peer w-full px-2 h-full rounded-md"
               ></motion.div>
             )}
-            <span className="leading-none z-10 w-max flex justify-center items-center">
+            <span className="leading-none z-10 w-max flex justify-center items-center font-semibold ">
               {title}
             </span>
           </Link>

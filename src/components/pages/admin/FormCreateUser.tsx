@@ -69,12 +69,9 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
       <h1 className="text-3xl font-bold pb-3">Registrar usuario</h1>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-100">
-            Información Personal
+          <h2 className="subtitle">
+            Información Personal del Usuario que formara parte de su equipo
           </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-300">
-            Los campos con (*) son obligatorios
-          </p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             {createUserInput.map((input) => (
               <div
@@ -106,10 +103,8 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-10 space-y-10">
             <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-200">
-                Role
-              </legend>
-              <p className="mt-1 text-sm leading-6 text-gray-300">
+              <legend className="mini-title">Role</legend>
+              <p className="subtitle">
                 Elige el rol que desees que tenga el usuario
               </p>
               <div className="mt-6 space-y-6 capitalize">
@@ -121,10 +116,7 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     {...register("role")}
                   />
-                  <label
-                    htmlFor="ojeador_item"
-                    className="block text-sm font-medium leading-6 text-gray-300"
-                  >
+                  <label htmlFor="ojeador_item" className="label">
                     Ojeador
                   </label>
                 </div>
@@ -136,10 +128,7 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     {...register("role")}
                   />
-                  <label
-                    htmlFor="trabajador_item"
-                    className="block text-sm font-medium leading-6 text-gray-300"
-                  >
+                  <label htmlFor="trabajador_item" className="label">
                     trabajador
                   </label>
                 </div>
@@ -151,10 +140,7 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
                     className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     {...register("role")}
                   />
-                  <label
-                    htmlFor="administrador_item"
-                    className="block text-sm font-medium leading-6 text-gray-300"
-                  >
+                  <label htmlFor="administrador_item" className="label">
                     Administrador
                   </label>
                 </div>
