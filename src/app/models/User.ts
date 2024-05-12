@@ -13,11 +13,12 @@ export interface IUser extends Document {
   CI?: number;
   phone?: string;
   project?: string;
+  business?: string[];
 }
 
 const UserSchema = new Schema(
   {
-    username: { type: String, required: true, unique: true },
+    username: { type: String, required: true },
     email: {
       type: String,
       unique: true,
@@ -32,6 +33,7 @@ const UserSchema = new Schema(
     municipality: String,
     phone: String,
     project: { type: Schema.Types.ObjectId, ref: "Project" },
+    business: [{ type: Schema.Types.ObjectId, ref: "Business" }],
   },
   {
     timestamps: true,

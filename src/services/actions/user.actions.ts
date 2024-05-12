@@ -1,5 +1,4 @@
 "use server";
-
 import { IUser, UserModel } from "@/app/models/User";
 import { hashPassword } from "@/functions/api/password.hash";
 import { parseServerResponse } from "@/libs/utils";
@@ -137,5 +136,19 @@ export async function deleteUser(userId: string) {
   } catch (error) {
     console.log(error);
     return { success: false, message: "Ha ocurrido un error inesperado" };
+  }
+}
+
+export async function existEmail(email: string) {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI as string);
+    const user = await UserModel.findOne({ email });
+    if (user) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 }

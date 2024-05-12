@@ -1,5 +1,5 @@
-import { ButtonAddUser } from "@/components/pages/admin/ButtonAddUser";
-import { ButtonEditUser } from "@/components/pages/admin/ButtonEditUser";
+import { ButtonAddUser } from "@/components/pages/admin/users/ButtonAddUser";
+import { ButtonEditUser } from "@/components/pages/admin/users/ButtonEditUser";
 import { ErrorPage } from "@/components/shared/ErrorPage";
 import { authOptions } from "@/libs/authOptions";
 import { convertRoleToSpanish } from "@/libs/utils";
@@ -39,11 +39,11 @@ const UsersPage = async () => {
               className="py-5 flex items-start justify-between"
             >
               <div className="flex gap-3">
-                <div className="flex justify-center items-center w-12 h-12 rounded-full bg-pri-900">
+                <div className="flex justify-center items-center w-12 h-12 rounded-full bg-pri-100 text-pri-700">
                   <FaUser />
                 </div>
                 <div className="space-y-1">
-                  <span className="block text-sm text-gray-100 font-semibold">
+                  <span className="block text-sm font-semibold">
                     {item.username}
                   </span>
                   <span className="block text-xs font-semibold text-gray-400">

@@ -2,7 +2,7 @@ import { BusinessOptions } from "@/components/pages/admin/business/business-opti
 import { ButtonAddBusiness } from "@/components/pages/admin/business/ButtonAddBusiness";
 import { ErrorPage } from "@/components/shared/ErrorPage";
 import { authOptions } from "@/libs/authOptions";
-import { getBusinessByOwner } from "@/services/actions/business.actions";
+import { getBusinessByProject } from "@/services/actions/business.actions";
 import { getServerSession } from "next-auth";
 
 const BusinessPage = async () => {
@@ -10,7 +10,7 @@ const BusinessPage = async () => {
   if (!session) {
     return <ErrorPage />;
   }
-  const business = await getBusinessByOwner(session.user.sub as string);
+  const business = await getBusinessByProject(session.user.project as string);
 
   if (!business) {
     return <ErrorPage />;

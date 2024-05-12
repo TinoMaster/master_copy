@@ -50,10 +50,10 @@ export async function deleteBusiness(businessId: string, projectId: string) {
   }
 }
 
-export async function getBusinessByOwner(ownerId: string) {
+export async function getBusinessByProject(projectId: string) {
   try {
     await mongoose.connect(process.env.MONGODB_URI ?? "");
-    const business = await BusinessModel.find({ owner: ownerId });
+    const business = await BusinessModel.find({ project: projectId });
     return parseServerResponse<IBusiness[]>(business);
   } catch (error) {
     console.log(error);

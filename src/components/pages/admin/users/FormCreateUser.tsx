@@ -1,8 +1,10 @@
 "use client";
+import { IBusiness } from "@/app/models/BusinessSchema";
 import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { createUserInput } from "@/constants/inputs";
+import { chooseUserRole, createUserInput } from "@/constants/inputs";
 import { initialRoute } from "@/libs/utils";
 import { registerUser } from "@/services/actions/user.actions";
 import { Role, TWorkerZod, workerSchema } from "@/services/validators/user.zod";
@@ -23,15 +25,27 @@ type Inputs = {
   CI: string;
   phone: string;
   role: Role;
+  business?: string[];
 };
 
-export const FormCreateUser = ({ projectId }: { projectId: string }) => {
+export const FormCreateUser = ({
+  projectId,
+  business,
+}: {
+  projectId: string;
+  business: IBusiness[];
+}) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<TWorkerZod>({
     resolver: zodResolver(workerSchema),
+    defaultValues: {
+      business: [],
+    },
   });
   const pathname = usePathname();
   const initialPath = initialRoute(pathname);
@@ -51,7 +65,9 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
       CI: Number(data.CI),
       phone: data.phone,
       role: data.role,
+      business: data.business,
     };
+
     const response = await registerUser(dataToSend);
 
     toast.dismiss();
@@ -68,6 +84,7 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="">
       <h1 className="text-3xl font-bold pb-3">Registrar usuario</h1>
       <div className="space-y-12">
+        {/* User information */}
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="subtitle">
             Información Personal del Usuario que formara parte de su equipo
@@ -85,8 +102,12 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
                   <Input
                     type={input.type}
                     id={input.id}
-                    autoComplete="given-name"
-                    className={input.inputClass}
+                    autoComplete="off"
+                    className={` ${
+                      errors[input.name as keyof Inputs]
+                        ? "border-red-500 outline-red-500 text-red-500"
+                        : ""
+                    }`}
                     {...register(input.name as keyof Inputs)}
                   />
                 </div>
@@ -99,7 +120,7 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
             ))}
           </div>
         </div>
-
+        {/* User Role */}
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-10 space-y-10">
             <fieldset>
@@ -108,42 +129,20 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
                 Elige el rol que desees que tenga el usuario
               </p>
               <div className="mt-6 space-y-6 capitalize">
-                <div className="flex items-center gap-x-3">
-                  <input
-                    id="ojeador_item"
-                    type="radio"
-                    value="user"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    {...register("role")}
-                  />
-                  <label htmlFor="ojeador_item" className="label">
-                    Ojeador
-                  </label>
-                </div>
-                <div className="flex items-center gap-x-3">
-                  <input
-                    id="trabajador_item"
-                    type="radio"
-                    value="worker"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    {...register("role")}
-                  />
-                  <label htmlFor="trabajador_item" className="label">
-                    trabajador
-                  </label>
-                </div>
-                <div className="flex items-center gap-x-3">
-                  <input
-                    id="administrador_item"
-                    type="radio"
-                    value="admin"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    {...register("role")}
-                  />
-                  <label htmlFor="administrador_item" className="label">
-                    Administrador
-                  </label>
-                </div>
+                {chooseUserRole.map((item) => (
+                  <div key={item.id} className="flex items-center gap-x-3">
+                    <Input
+                      id={item.id}
+                      type={item.type}
+                      value={item.value}
+                      className={item.inputClass}
+                      {...register(item.name as keyof Inputs)}
+                    />
+                    <label htmlFor={item.id} className={item.labelClass}>
+                      {item.label}
+                    </label>
+                  </div>
+                ))}
                 {errors.role?.message && (
                   <p className="text-red-500 text-sm">{errors.role?.message}</p>
                 )}
@@ -151,6 +150,58 @@ export const FormCreateUser = ({ projectId }: { projectId: string }) => {
             </fieldset>
           </div>
         </div>
+        {/* User Business */}
+        {business.length > 1 && (
+          <div className="border-b border-gray-900/10 pb-12">
+            <div className="mt-10 space-y-10">
+              <fieldset>
+                <legend className="mini-title">Negocios</legend>
+                <p className="subtitle">
+                  Elige los negocios que desees que el usuario tenga acceso
+                </p>
+                <div className="mt-6 space-y-6 capitalize">
+                  {business.map((item) => (
+                    <div key={item._id} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={item._id}
+                        value={item._id}
+                        defaultChecked={getValues("business").includes(
+                          item._id
+                        )}
+                        onCheckedChange={(val) => {
+                          return val
+                            ? setValue(
+                                "business",
+                                [...getValues("business"), item._id],
+                                { shouldDirty: true }
+                              )
+                            : setValue(
+                                "business",
+                                getValues("business").filter(
+                                  (id) => id !== item._id
+                                ),
+                                { shouldDirty: true }
+                              );
+                        }}
+                      />
+                      <label
+                        htmlFor={item._id}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {item.name}
+                      </label>
+                    </div>
+                  ))}
+                  {errors.business?.message && (
+                    <p className="text-red-500 text-sm">
+                      {errors.business?.message}
+                    </p>
+                  )}
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">

@@ -1,11 +1,17 @@
 "use client";
+import { IBusiness } from "@/app/models/BusinessSchema";
 import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { editUserInput } from "@/constants/inputs";
+import { chooseUserRole, editUserInput } from "@/constants/inputs";
 import { initialRoute } from "@/libs/utils";
 import { deleteUser, updateUser } from "@/services/actions/user.actions";
-import { Role, workerToEditSchema } from "@/services/validators/user.zod";
+import {
+  Role,
+  TWorkerToEditZod,
+  workerToEditSchema,
+} from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -21,14 +27,23 @@ type Inputs = {
   CI: string;
   phone: string;
   role: Role;
+  business?: string[];
 };
 
-export const FormUpdateUser = ({ user }: { user: IUser }) => {
+export const FormUpdateUser = ({
+  user,
+  business,
+}: {
+  user: IUser;
+  business: IBusiness[];
+}) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors, isDirty },
-  } = useForm<Inputs>({
+  } = useForm<TWorkerToEditZod>({
     resolver: zodResolver(workerToEditSchema),
     defaultValues: {
       name: user.name,
@@ -39,6 +54,7 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
       CI: user.CI?.toString() ?? "-",
       phone: user.phone,
       role: user.role,
+      business: user.business,
     },
   });
   const formRef = useRef<HTMLFormElement>(null);
@@ -57,6 +73,7 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
       CI: Number(data.CI),
       phone: data.phone,
       role: data.role,
+      business: data.business,
     };
 
     const response = await updateUser(user._id, dataToEdit);
@@ -84,13 +101,10 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="">
       <h1 className="text-3xl font-bold pb-3">Editar usuario</h1>
       <div className="space-y-12">
+        {/* User information */}
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-100">
-            Información Personal
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-300">
-            Los campos con (*) son obligatorios
-          </p>
+          <h2 className="mini-title">Información Personal</h2>
+          <p className="subtitle">Edite la información personal del usuario</p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             {editUserInput.map((input) => (
               <div
@@ -105,7 +119,11 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
                     type={input.type}
                     id={input.id}
                     autoComplete="given-name"
-                    className={input.inputClass}
+                    className={` ${
+                      errors[input.name as keyof Inputs]
+                        ? "border-red-500 outline-red-500 text-red-500"
+                        : ""
+                    }`}
                     {...register(input.name as keyof Inputs)}
                   />
                 </div>
@@ -118,62 +136,29 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
             ))}
           </div>
         </div>
-
+        {/* User Role */}
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-10 space-y-10">
             <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-200">
-                Role
-              </legend>
-              <p className="mt-1 text-sm leading-6 text-gray-300">
+              <legend className="mini-title">Role</legend>
+              <p className="subtitle">
                 Elige el rol que desees que tenga el usuario
               </p>
               <div className="mt-6 space-y-6 capitalize">
-                <div className="flex items-center gap-x-3">
-                  <input
-                    id="ojeador_item"
-                    type="radio"
-                    value="user"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    {...register("role")}
-                  />
-                  <label
-                    htmlFor="ojeador_item"
-                    className="block text-sm font-medium leading-6 text-gray-300"
-                  >
-                    Ojeador
-                  </label>
-                </div>
-                <div className="flex items-center gap-x-3">
-                  <input
-                    id="trabajador_item"
-                    type="radio"
-                    value="worker"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    {...register("role")}
-                  />
-                  <label
-                    htmlFor="trabajador_item"
-                    className="block text-sm font-medium leading-6 text-gray-300"
-                  >
-                    trabajador
-                  </label>
-                </div>
-                <div className="flex items-center gap-x-3">
-                  <input
-                    id="administrador_item"
-                    type="radio"
-                    value="admin"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    {...register("role")}
-                  />
-                  <label
-                    htmlFor="administrador_item"
-                    className="block text-sm font-medium leading-6 text-gray-300"
-                  >
-                    Administrador
-                  </label>
-                </div>
+                {chooseUserRole.map((item) => (
+                  <div key={item.id} className="flex items-center gap-x-3">
+                    <Input
+                      id={item.id}
+                      type={item.type}
+                      value={item.value}
+                      className={item.inputClass}
+                      {...register(item.name as keyof Inputs)}
+                    />
+                    <label htmlFor={item.id} className={item.labelClass}>
+                      {item.label}
+                    </label>
+                  </div>
+                ))}
                 {errors.role?.message && (
                   <p className="text-red-500 text-sm">{errors.role?.message}</p>
                 )}
@@ -181,6 +166,59 @@ export const FormUpdateUser = ({ user }: { user: IUser }) => {
             </fieldset>
           </div>
         </div>
+        {/* User Business */}
+        {business.length > 1 && (
+          <div className="border-b border-gray-900/10 pb-12">
+            <div className="mt-10 space-y-10">
+              <fieldset>
+                <legend className="mini-title">Negocios</legend>
+                <p className="subtitle">
+                  Elige los negocios que desees que el usuario tenga acceso
+                </p>
+                <div className="mt-6 space-y-6 capitalize">
+                  {business.map((item) => (
+                    <div key={item._id} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={item._id}
+                        value={item._id}
+                        defaultChecked={getValues("business").includes(
+                          item._id
+                        )}
+                        onCheckedChange={(val) => {
+                          console.log(val);
+                          return val
+                            ? setValue(
+                                "business",
+                                [...getValues("business"), item._id],
+                                { shouldDirty: true }
+                              )
+                            : setValue(
+                                "business",
+                                getValues("business").filter(
+                                  (id) => id !== item._id
+                                ),
+                                { shouldDirty: true }
+                              );
+                        }}
+                      />
+                      <label
+                        htmlFor={item._id}
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {item.name}
+                      </label>
+                    </div>
+                  ))}
+                  {errors.business?.message && (
+                    <p className="text-red-500 text-sm">
+                      {errors.business?.message}
+                    </p>
+                  )}
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6">

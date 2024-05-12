@@ -1,3 +1,4 @@
+import { Roles } from "@/services/validators/user.zod";
 import { TInput } from "@/types";
 
 export const createUserInput: TInput[] = [
@@ -10,7 +11,6 @@ export const createUserInput: TInput[] = [
     name: "name",
     editable: true,
     containerClass: "sm:col-span-3",
-    inputClass: "input",
   },
   {
     id: "username_item",
@@ -21,7 +21,6 @@ export const createUserInput: TInput[] = [
     name: "username",
     editable: true,
     containerClass: "sm:col-span-3",
-    inputClass: "input",
   },
   {
     id: "email_item",
@@ -32,7 +31,6 @@ export const createUserInput: TInput[] = [
     name: "email",
     editable: true,
     containerClass: "sm:col-span-4",
-    inputClass: "input",
   },
   {
     id: "password_item",
@@ -43,7 +41,6 @@ export const createUserInput: TInput[] = [
     name: "password",
     editable: true,
     containerClass: "sm:col-span-3",
-    inputClass: "input",
   },
   {
     id: "confirm_password_item",
@@ -54,7 +51,6 @@ export const createUserInput: TInput[] = [
     name: "confirmPassword",
     editable: true,
     containerClass: "sm:col-span-3",
-    inputClass: "input",
   },
   {
     id: "address_item",
@@ -65,7 +61,6 @@ export const createUserInput: TInput[] = [
     name: "address",
     editable: true,
     containerClass: "sm:col-span-full",
-    inputClass: "input",
   },
   {
     id: "municipality_item",
@@ -76,7 +71,6 @@ export const createUserInput: TInput[] = [
     name: "municipality",
     editable: true,
     containerClass: "sm:col-span-2 sm:col-start-1",
-    inputClass: "input",
   },
   {
     id: "CI_item",
@@ -87,7 +81,6 @@ export const createUserInput: TInput[] = [
     name: "CI",
     editable: true,
     containerClass: "sm:col-span-2",
-    inputClass: "input",
   },
   {
     id: "phone_item",
@@ -98,7 +91,36 @@ export const createUserInput: TInput[] = [
     name: "phone",
     editable: true,
     containerClass: "sm:col-span-2",
-    inputClass: "input",
+  },
+];
+
+export const chooseUserRole: TInput[] = [
+  {
+    id: "ojeador_item",
+    type: "radio",
+    name: "role",
+    value: Roles.USER,
+    label: "Ojeador",
+    labelClass: "label",
+    inputClass: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600",
+  },
+  {
+    id: "trabajador_item",
+    type: "radio",
+    name: "role",
+    value: Roles.WORKER,
+    label: "Trabajador",
+    labelClass: "label",
+    inputClass: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600",
+  },
+  {
+    id: "admin_item",
+    type: "radio",
+    name: "role",
+    value: Roles.ADMIN,
+    label: "Administrador",
+    labelClass: "label",
+    inputClass: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600",
   },
 ];
 
