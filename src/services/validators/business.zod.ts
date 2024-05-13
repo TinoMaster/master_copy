@@ -5,14 +5,24 @@ export const businessSchema = z.object({
     .string()
     .min(3, "El nombre debe tener al menos 3 caracteres")
     .max(50, "El nombre no puede tener mas de 50 caracteres"),
-  owner: z.string(),
-  project: z.string(),
+  owner: z.string().min(1, "El propietario es requerido"),
+  project: z.string().min(1, "El proyecto es requerido"),
   description: z.string(),
   status: z.string(),
   workers: z.array(z.string()).optional(),
-  address: z.string(),
-  municipality: z.string(),
-  phone: z.string(),
+  address: z.string().min(7, "La dirección debe tener al menos 7 caracteres"),
+  municipality: z.string().min(1, "La localidad es requerida"),
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (value) => {
+        if (!value) return true;
+        const regex = /^\d{8}$/;
+        return regex.test(value);
+      },
+      { message: "Celular invalido" }
+    ),
   schedules: z
     .array(
       z.object({
@@ -22,7 +32,7 @@ export const businessSchema = z.object({
       })
     )
     .optional(),
-  statisticPermission: z.boolean().optional(),
+  statisticPermission: z.boolean(),
 });
 
 export const businessUpdateSchema = z
@@ -32,9 +42,19 @@ export const businessUpdateSchema = z
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(50, "El nombre no puede tener mas de 50 caracteres"),
     description: z.string(),
-    address: z.string().min(1, "La dirección es requerida"),
+    address: z.string().min(7, "La dirección debe tener al menos 7 caracteres"),
     municipality: z.string().min(1, "La localidad es requerida"),
-    phone: z.string(),
+    phone: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true;
+          const regex = /^\d{8}$/;
+          return regex.test(value);
+        },
+        { message: "Celular invalido" }
+      ),
     schedules: z.array(
       z.object({
         day: z.string(),

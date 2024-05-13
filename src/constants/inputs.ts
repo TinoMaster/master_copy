@@ -136,12 +136,10 @@ export const createBusinessInput: TInput[] = [
     name: "name",
     editable: true,
     containerClass: "sm:col-span-3",
-    inputClass: "input",
   },
   {
     id: "address_item",
     label: "Dirección",
-    description: "Dirección del negocio",
     required: true,
     labelClass: "label",
     type: "text",
@@ -149,7 +147,6 @@ export const createBusinessInput: TInput[] = [
     name: "address",
     editable: true,
     containerClass: "sm:col-span-full",
-    inputClass: "input",
   },
   {
     id: "municipality_item",
@@ -161,7 +158,6 @@ export const createBusinessInput: TInput[] = [
     name: "municipality",
     editable: true,
     containerClass: "sm:col-span-2 sm:col-start-1",
-    inputClass: "input",
   },
   {
     id: "phone_item",
@@ -172,7 +168,6 @@ export const createBusinessInput: TInput[] = [
     name: "phone",
     editable: true,
     containerClass: "sm:col-span-2",
-    inputClass: "input",
   },
 ];
 
