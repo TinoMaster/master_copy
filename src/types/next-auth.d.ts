@@ -5,7 +5,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       username: string;
-      role: "admin" | "user" | "worker";
+      role: "admin" | "user" | "worker" | "owner";
       sub?: string;
       project?: string;
     } & DefaultSession["user"];
@@ -13,7 +13,7 @@ declare module "next-auth" {
 
   interface User extends DefaultUser {
     username: string;
-    role: "admin" | "user" | "worker";
+    role: "admin" | "user" | "worker" | "owner";
     sub?: string;
     project?: string;
   }
@@ -22,7 +22,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT extends DefaultJWT {
     username: string;
-    role: "admin" | "user" | "worker";
+    role: "admin" | "user" | "worker" | "owner";
     sub?: string;
     project?: string;
   }

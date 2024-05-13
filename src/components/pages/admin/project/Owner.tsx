@@ -23,6 +23,7 @@ export const Owner = ({ user }: { user: IUser }) => {
   } = useForm<TEditAdminZod>({
     resolver: zodResolver(editAdminSchema),
     defaultValues: {
+      id: user._id,
       username: user.username,
       email: user.email,
       phone: user.phone ?? "",
@@ -52,21 +53,26 @@ export const Owner = ({ user }: { user: IUser }) => {
           {ownerInput.map((input) => (
             <div
               key={input.id}
-              className="flex flex-col sm:flex-row relative justify-between sm:items-center"
+              className="flex flex-col sm:flex-row justify-between sm:items-center"
             >
               <label htmlFor={input.id} className={input.labelClass}>
                 {input.label}
               </label>
-              <Input
-                type="text"
-                placeholder={input.placeholder}
-                id={input.id}
-                className="sm:w-1/2 bg-transparent"
-                {...register(input.name as keyof Inputs)}
-              />
-              <p className="text-red-500 text-xs absolute -bottom-5 left-2">
-                {errors[input.name as keyof Inputs]?.message}
-              </p>
+              <div className="sm:w-1/2 relative">
+                <Input
+                  type="text"
+                  placeholder={input.placeholder}
+                  id={input.id}
+                  className={`placeholder:text-slate-400 bg-transparent ${
+                    errors[input.name as keyof Inputs] &&
+                    "border-red-500 outline-red-500 text-red-500"
+                  }`}
+                  {...register(input.name as keyof Inputs)}
+                />
+                <p className="text-red-500 text-xs absolute -bottom-5 left-2">
+                  {errors[input.name as keyof Inputs]?.message}
+                </p>
+              </div>
             </div>
           ))}
         </div>

@@ -5,7 +5,7 @@ import { LuListFilter } from "react-icons/lu";
 
 export const Profits = () => {
   return (
-    <div className="flex flex-col gap-4 p-3 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 shadow rounded-md">
+    <div className="flex flex-col gap-4 p-3 bg-gradient-to-r from-primary to-secondary shadow rounded-md">
       <div className="flex justify-between items-center">
         <h4 className="head-title-banner text-gray-100">Ingresos</h4>
         <div className="flex gap-2 items-center">

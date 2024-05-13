@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Select,
   SelectContent,
@@ -9,13 +8,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export const WorkersSelect = () => {
+export const SelectBusiness = () => {
   return (
-    <div className=" p-5 space-y-4 rounded-md">
+    <div className="w-full sm:w-min p-5 space-y-4 rounded-md">
       <h4 className="head-title-banner">Elegir Negocio</h4>
       <div className="w-[180px]">
         <Select>
-          <SelectTrigger className="input">
+          <SelectTrigger className="">
             <SelectValue placeholder="Seleccione trabajador" />
           </SelectTrigger>
           <SelectContent>

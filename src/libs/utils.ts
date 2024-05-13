@@ -72,3 +72,24 @@ export function formatPrice(price: number) {
     currency: "CUP",
   }).format(price);
 }
+
+export function checkRolePermission(role: Role, permission: Role) {
+  const adminPermissions = ["admin", "user", "worker"];
+  const workerPermission = ["worker", "user"];
+  const userPermission = "user";
+
+  if (role === "owner") {
+    return true;
+  }
+  if (role === "admin") {
+    return adminPermissions.includes(permission);
+  }
+  if (role === "worker") {
+    return workerPermission.includes(permission);
+  }
+  if (role === "user") {
+    return userPermission === permission;
+  }
+
+  return false;
+}

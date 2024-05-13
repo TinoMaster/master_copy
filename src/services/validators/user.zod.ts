@@ -2,44 +2,73 @@ import { z } from "zod";
 import { existEmail } from "../actions/user.actions";
 
 export enum Roles {
+  OWNER = "owner",
   ADMIN = "admin",
   USER = "user",
   WORKER = "worker",
 }
-export type Role = "admin" | "user" | "worker";
-const roles = ["admin", "user", "worker"] as const;
+export type Role = "admin" | "user" | "worker" | "owner";
+const roles = ["admin", "user", "worker", "owner"] as const;
 
 export const loginSchema = z.object({
   email: z.string().email("Correo inválido"),
   password: z.string(),
 });
 
-export const adminSchema = z.object({
-  email: z.string().min(1, "El correo es requerido").email("Correo inválido"),
-  username: z
-    .string()
-    .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-  role: z.enum(roles),
-});
+export const ownerSchema = z
+  .object({
+    email: z.string().min(1, "El correo es requerido").email("Correo inválido"),
+    username: z
+      .string()
+      .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
+    password: z
+      .string()
+      .min(6, "La contraseña debe tener al menos 6 caracteres"),
+    role: z.enum(roles),
+  })
+  .refine(
+    async (data) => {
+      const { email } = data;
+      const exist = await existEmail(email);
 
-export const editAdminSchema = z.object({
-  username: z
-    .string()
-    .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
-  email: z.string().email("Correo inválido"),
-  phone: z
-    .string()
-    .optional()
-    .refine(
-      (value) => {
-        if (!value) return true;
-        const regex = /^\d{8}$/;
-        return regex.test(value);
-      },
-      { message: "Celular invalido" }
-    ),
-});
+      return !exist;
+    },
+    {
+      message: "El correo ya se encuentra registrado",
+      path: ["email"],
+    }
+  );
+
+export const editAdminSchema = z
+  .object({
+    id: z.string().min(1, "El id es requerido"),
+    username: z
+      .string()
+      .min(3, "El nombre de usuario debe tener al menos 3 caracteres"),
+    email: z.string().email("Correo inválido").min(1, "El correo es requerido"),
+    phone: z
+      .string()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value) return true;
+          const regex = /^\d{8}$/;
+          return regex.test(value);
+        },
+        { message: "Celular invalido" }
+      ),
+  })
+  .refine(
+    async (data) => {
+      const { email, id } = data;
+      const exist = await existEmail(email, id);
+      return !exist;
+    },
+    {
+      message: "El correo ya se encuentra registrado",
+      path: ["email"],
+    }
+  );
 
 export const workerSchema = z
   .object({
@@ -153,7 +182,7 @@ export const workerToEditSchema = z
   );
 
 export type TLoginZod = z.infer<typeof loginSchema>;
-export type TAdminZod = z.infer<typeof adminSchema>;
+export type TOwnerZod = z.infer<typeof ownerSchema>;
 export type TEditAdminZod = z.infer<typeof editAdminSchema>;
 export type TWorkerZod = z.infer<typeof workerSchema>;
 export type TWorkerToEditZod = z.infer<typeof workerToEditSchema>;

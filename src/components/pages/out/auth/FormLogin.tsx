@@ -80,7 +80,7 @@ export const FormLogin = () => {
               id="email"
               type="email"
               required
-              className="input"
+              className=""
               {...register("email")}
             />
             <p className="text-xs text-red-500 absolute -bottom-5 left-2">
@@ -95,7 +95,7 @@ export const FormLogin = () => {
               id="password"
               type="password"
               required
-              className="input"
+              className=""
               {...register("password")}
             />
             <p className="text-xs text-red-500 absolute -bottom-5 left-2">
@@ -109,10 +109,7 @@ export const FormLogin = () => {
                 id="remember-me"
                 className="checkbox-item peer hidden"
               />
-              <label
-                htmlFor="remember-me"
-                className="relative flex w-5 h-5 bg-white peer-checked:bg-pri-600 rounded-md border ring-offset-2 ring-pri-600 duration-150 peer-active:ring cursor-pointer after:absolute after:inset-x-0 after:top-[3px] after:m-auto after:w-1.5 after:h-2.5 after:border-r-2 after:border-b-2 after:border-white after:rotate-45"
-              ></label>
+              <label htmlFor="remember-me" className="labelCheckbox"></label>
               <span>Recordarme</span>
             </div>
             <Link

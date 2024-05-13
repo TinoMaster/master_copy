@@ -142,16 +142,6 @@ export function FormCreateBusiness({ session }: { readonly session: Session }) {
                     Aceptar compartir
                   </label>
                 </div>
-                {/* <div className="sm:col-span-3 relative flex gap-2">
-                  <input
-                    type="checkbox"
-                    id="accept-share"
-                    {...register("statisticPermission")}
-                  />
-                  <label htmlFor="accept-share" className="text-gray-200">
-                    Aceptar compartir
-                  </label>
-                </div> */}
                 <div className={`sm:col-span-3 relative`}>
                   <label htmlFor="description" className="label">
                     <span>Descripción</span>

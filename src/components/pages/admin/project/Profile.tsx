@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { BsCoin } from "react-icons/bs";
 import { z } from "zod";
 
+
+/* //TODO: VALIDATE */
 type Inputs = {
   name: string;
 };

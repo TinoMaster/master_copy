@@ -4,7 +4,7 @@ import { hashPassword } from "@/functions/api/password.hash";
 import { parseServerResponse } from "@/libs/utils";
 import mongoose from "mongoose";
 import { revalidateTag } from "next/cache";
-import { TAdminZod } from "../validators/user.zod";
+import { TOwnerZod } from "../validators/user.zod";
 
 export async function getUsers() {
   try {
@@ -71,7 +71,7 @@ export async function userHasProject(email: string) {
   }
 }
 
-export async function registerAdmin(data: TAdminZod) {
+export async function registerAdmin(data: TOwnerZod) {
   const passwordHashed = await hashPassword(data.password);
   try {
     await mongoose.connect(process.env.MONGODB_URI ?? "");

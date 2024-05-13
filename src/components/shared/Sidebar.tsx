@@ -3,12 +3,17 @@ import { navLinks } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
-import { cutPathnameByPieces, initialRoute } from "@/libs/utils";
+import {
+  checkRolePermission,
+  cutPathnameByPieces,
+  initialRoute,
+} from "@/libs/utils";
 import { Profile } from "./Profile";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { getProject } from "@/services/actions/project.actions";
+import { Role, Roles } from "@/services/validators/user.zod";
 
 const Sidebar = () => {
   const [projectName, setProjectName] = useState("");
@@ -81,7 +86,7 @@ const Sidebar = () => {
                 </li>
               );
             })}
-            {session?.user.role === "admin" ? (
+            {checkRolePermission(session?.user?.role as Role, Roles.ADMIN) ? (
               <li
                 className={`sidebar-nav_element group ${
                   route === "/admin"

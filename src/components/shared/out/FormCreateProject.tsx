@@ -1,11 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { createBusinessInput } from "@/constants/inputs";
 import { createProject } from "@/services/actions/project.actions";
 import { projectSchema, TProjectZod } from "@/services/validators/project.zod";
 import { CreateFirstProject } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckedState } from "@radix-ui/react-checkbox";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -29,6 +32,7 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<TProjectZod>({
     resolver: zodResolver(projectSchema),
@@ -70,13 +74,11 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="">
-      <h2 className="text-3xl font-bold pb-3">Registrar Proyecto</h2>
+      <h2 className="title">Registrar Proyecto</h2>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
-          <h3 className="text-base font-semibold leading-7 text-gray-100">
-            Información del proyecto
-          </h3>
-          <p className="mt-1 text-sm leading-6 text-gray-300">
+          <h3 className="mini-title">Información del proyecto</h3>
+          <p className="subtitle">
             Un proyecto es una organización que se encarga de gestionar uno o
             mas negocios de copias. Solo puedes registrar un proyecto una vez
             por cada usuario.
@@ -87,7 +89,7 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
                 <span>Nombre del proyecto</span>
                 <span className="text-red-500">*</span>
               </label>
-              <p className="text-gray-300 text-xs ml-1">
+              <p className="mini-subtitle pl-1">
                 El nombre del proyecto será el nombre que defina toda la
                 organización
               </p>
@@ -95,7 +97,7 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
                 <Input
                   type="text"
                   id="project-name"
-                  className="input"
+                  className=""
                   {...register("projectName")}
                 />
               </div>
@@ -108,11 +110,9 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
           </div>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="col-span-full">
-              <h2 className="text-3xl font-bold pb-3">Registrar Negocio</h2>
-              <h3 className="text-base font-semibold leading-7 text-gray-100">
-                Información del Negocio
-              </h3>
-              <p className="mt-1 text-sm leading-6 text-gray-300">
+              <h2 className="title">Registrar Negocio</h2>
+              <h3 className="mini-title">Información del Negocio</h3>
+              <p className="subtitle">
                 Un negocio seria un local de los tantos que puede tener, luego
                 tendrá la posibilidad de agregar otros en caso de tener mas de
                 uno
@@ -128,16 +128,17 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
                   {input.required && <span className="text-red-500">*</span>}
                 </label>
                 {input?.description && (
-                  <p className="text-gray-300 text-xs ml-1">
-                    {input.description}
-                  </p>
+                  <p className="mini-subtitle pl-1">{input.description}</p>
                 )}
                 <div className="mt-2">
                   <Input
                     type={input.type}
                     id={input.id}
                     autoComplete="given-name"
-                    className={input.inputClass}
+                    className={`${
+                      errors[input.name as keyof Inputs]?.message &&
+                      "border-red-500 outline-red-500 text-red-500"
+                    }`}
                     {...register(input.name as keyof Inputs)}
                   />
                 </div>
@@ -154,21 +155,29 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
         <div className="border-b border-gray-900/10 pb-12">
           <div className="mt-10 space-y-10">
             <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-200">
-                Datos a compartir
-              </legend>
-              <p className="mt-1 text-sm leading-6 text-gray-300">
+              <legend className="mini-title">Datos a compartir</legend>
+              <p className="subtitle">
                 Elige si deseas compartir tu negocio con otras personas, esto
                 ayudara a que usuarios puedan conocerlo
               </p>
               <div className="mt-6 space-y-6">
-                <div className="sm:col-span-3 relative flex gap-2">
-                  <input
-                    type="checkbox"
-                    id="accept-share"
-                    {...register("statisticPermission")}
+                {/* Checkbox accept share */}
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="statisticPermission"
+                    className="labelCheckbox"
+                    onCheckedChange={(val: CheckedState) => {
+                      return typeof val === "boolean"
+                        ? setValue("statisticPermission", val, {
+                            shouldDirty: true,
+                          })
+                        : setValue("statisticPermission", false);
+                    }}
                   />
-                  <label htmlFor="accept-share" className="text-gray-200">
+                  <label
+                    htmlFor="statisticPermission"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
                     Aceptar compartir
                   </label>
                 </div>
@@ -176,15 +185,18 @@ export const FormCreateProject = ({ userId }: { userId: string }) => {
                   <label htmlFor="description" className="label">
                     <span>Descripción</span>
                   </label>
-                  <p className="text-gray-300 text-xs ml-1">
+                  <p className="mini-subtitle pl-1">
                     Elige una descripción para tu proyecto, esta sirve para que
                     en caso de que compartas tu negocio con otras personas
                     puedas identificarlo
                   </p>
                   <div className="mt-2">
-                    <textarea
+                    <Textarea
                       id="description"
-                      className="input"
+                      className={`${
+                        errors["description"]?.message &&
+                        "border-red-500 outline-red-500 text-red-500"
+                      }`}
                       {...register("description")}
                     />
                   </div>

@@ -82,10 +82,6 @@ export const linksCashierPanel: TLink[] = [
     title: "Insumos",
     route: "/cashier/supplies",
   },
-  {
-    title: "Tienda",
-    route: "/cashier/shop",
-  },
 ];
 
 export const dayHours = [

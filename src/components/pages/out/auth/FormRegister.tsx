@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { registerAdmin } from "@/services/actions/user.actions";
-import { adminSchema, TAdminZod } from "@/services/validators/user.zod";
+import { ownerSchema, TOwnerZod } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ type Inputs = {
   username: string;
   email: string;
   password: string;
-  role: "admin" | "worker" | "user";
+  role: "admin" | "worker" | "user" | "owner";
 };
 
 export const FormRegister = () => {
@@ -22,10 +22,10 @@ export const FormRegister = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TAdminZod>({
-    resolver: zodResolver(adminSchema),
+  } = useForm<TOwnerZod>({
+    resolver: zodResolver(ownerSchema),
     defaultValues: {
-      role: "admin",
+      role: "owner",
     },
   });
   const { push } = useRouter();
@@ -67,14 +67,18 @@ export const FormRegister = () => {
               id="username"
               type="text"
               required
-              className="input"
+              className={`${
+                errors.username
+                  ? "border-red-500 outline-red-500 text-red-500"
+                  : ""
+              }`}
               {...register("username")}
             />
             <p className="text-xs text-red-500 absolute -bottom-5 left-2">
               {errors.username?.message}
             </p>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 relative">
             <label htmlFor="email" className="font-medium">
               Correo
             </label>
@@ -82,14 +86,18 @@ export const FormRegister = () => {
               id="email"
               type="email"
               required
-              className="input"
+              className={`${
+                errors.email
+                  ? "border-red-500 outline-red-500 text-red-500"
+                  : ""
+              }`}
               {...register("email")}
             />
             <p className="text-xs text-red-500 absolute -bottom-5 left-2">
               {errors.email?.message}
             </p>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 relative">
             <label htmlFor="password" className="font-medium">
               Contraseña
             </label>
@@ -97,7 +105,11 @@ export const FormRegister = () => {
               id="password"
               type="password"
               required
-              className="input"
+              className={`${
+                errors.password
+                  ? "border-red-500 outline-red-500 text-red-500"
+                  : ""
+              }`}
               {...register("password")}
             />
             <p className="text-xs text-red-500 absolute -bottom-5 left-2">

@@ -85,3 +85,17 @@ export async function updateProject(
     return { success: false, message: "Ah ocurrido un error" };
   }
 }
+
+export async function existProjectName(projectName: string) {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI as string);
+    const existProject = await ProjectModel.findOne({ name: projectName });
+    if (existProject) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

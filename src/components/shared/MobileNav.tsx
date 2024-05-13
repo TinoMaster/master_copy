@@ -1,7 +1,11 @@
 "use client";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navLinks } from "@/constants";
-import { cutPathnameByPieces, initialRoute } from "@/libs/utils";
+import {
+  checkRolePermission,
+  cutPathnameByPieces,
+  initialRoute,
+} from "@/libs/utils";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,6 +14,7 @@ import { RiMenu3Fill } from "react-icons/ri";
 import { Logo } from "./Logo";
 import { Profile } from "./Profile";
 import { useState } from "react";
+import { Role, Roles } from "@/services/validators/user.zod";
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
@@ -57,7 +62,10 @@ const MobileNav = () => {
                     </li>
                   );
                 })}
-                {session?.user.role === "admin" ? (
+                {checkRolePermission(
+                  session?.user?.role as Role,
+                  Roles.ADMIN
+                ) ? (
                   <li
                     className={`sidebar-nav_element group ${
                       route === "/admin"
