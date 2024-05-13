@@ -23,7 +23,7 @@ type Inputs = {
   description: string;
   address: string;
   municipality: string;
-  phone: string;
+  phone?: string;
   schedules: { day: string; openingTime: string; closingTime: string }[];
   statisticPermission?: boolean;
 };
