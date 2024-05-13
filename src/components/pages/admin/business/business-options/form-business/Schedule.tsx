@@ -4,6 +4,15 @@ import { higherHourRange, lowerHourRange } from "@/libs/utils";
 import { TBusinessUpdateZod } from "@/services/validators/business.zod";
 import React, { useEffect, useState } from "react";
 import { UseFormClearErrors, UseFormSetValue } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export interface ISchedule {
   day: string;
@@ -35,11 +44,11 @@ export const Schedule = ({
   }, [schedulesState, setValue, schedules]);
 
   function handleChange(
-    e: React.ChangeEvent<HTMLSelectElement>,
+    name: "openingTime" | "closingTime",
+    value: string,
     index: number
   ) {
     clearErrors("schedules");
-    const { name, value } = e.target;
     setSchedulesState((prev) => {
       return prev.map((item, i) => {
         if (i === index) {
@@ -68,33 +77,45 @@ export const Schedule = ({
           <div key={day} className="flex justify-between items-center px-2">
             <p className="">{day}</p>
             <div className="flex gap-2">
-              <select
-                onChange={(e) => handleChange(e, index)}
-                name="openingTime"
-                id="openingTime"
-                className="bg-gray-800"
+              <Select
+                onValueChange={(value) =>
+                  handleChange("openingTime", value, index)
+                }
               >
-                <option value={openHour}>{openHour}</option>
-                {lowerHourRange(closeHour, dayHours).map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger className="w-[100px]">
+                  <SelectValue placeholder={openHour} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup defaultValue={openHour}>
+                    <SelectLabel>Apertura</SelectLabel>
+                    {lowerHourRange(closeHour, dayHours).map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               <p>-</p>
-              <select
-                onChange={(e) => handleChange(e, index)}
-                name="closingTime"
-                id="closingTime"
-                className="bg-gray-800"
+              <Select
+                onValueChange={(value) =>
+                  handleChange("closingTime", value, index)
+                }
               >
-                <option value={closeHour}>{closeHour}</option>
-                {higherHourRange(openHour, dayHours).map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger className="w-[100px]">
+                  <SelectValue placeholder={closeHour} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup defaultValue={closeHour}>
+                    <SelectLabel>Cierre</SelectLabel>
+                    {higherHourRange(openHour, dayHours).map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         );
