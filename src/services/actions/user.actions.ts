@@ -139,11 +139,11 @@ export async function deleteUser(userId: string) {
   }
 }
 
-export async function existEmail(email: string) {
+export async function existEmail(email: string, userId?: string) {
   try {
     await mongoose.connect(process.env.MONGODB_URI as string);
     const user = await UserModel.findOne({ email });
-    if (user) {
+    if (user && JSON.parse(JSON.stringify(user._id)) !== userId) {
       return true;
     }
     return false;

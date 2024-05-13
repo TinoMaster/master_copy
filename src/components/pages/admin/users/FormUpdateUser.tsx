@@ -46,6 +46,7 @@ export const FormUpdateUser = ({
   } = useForm<TWorkerToEditZod>({
     resolver: zodResolver(workerToEditSchema),
     defaultValues: {
+      id: user._id,
       name: user.name,
       username: user.username,
       email: user.email,

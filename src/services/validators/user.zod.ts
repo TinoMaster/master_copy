@@ -103,6 +103,7 @@ export const workerSchema = z
 
 export const workerToEditSchema = z
   .object({
+    id: z.string().min(1, "El id es requerido"),
     name: z
       .string()
       .min(3, "El nombre debe tener al menos 3 caracteres")
@@ -140,9 +141,8 @@ export const workerToEditSchema = z
   })
   .refine(
     async (data) => {
-      const { email } = data;
-      // TODO: Falta validar que el email no sea el que ya es del usuario, osea comparar solo con los demas
-      const exist = await existEmail(email);
+      const { email, id } = data;
+      const exist = await existEmail(email, id);
 
       return !exist;
     },
