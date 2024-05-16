@@ -78,7 +78,7 @@ export async function updateProject(
   try {
     await mongoose.connect(process.env.MONGODB_URI ?? "");
     await ProjectModel.findByIdAndUpdate(projectId, data);
-    revalidateTag("project");
+    revalidateTag("projects");
     return { success: true, message: "Usuario actualizado correctamente" };
   } catch (error) {
     console.log(error);

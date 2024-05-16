@@ -14,7 +14,7 @@ export const FormDailyBalance = () => {
               <label htmlFor="" className="label">
                 {input.label}
               </label>
-              <Input type="text" className="input" />
+              <Input type="text" className="" />
             </div>
           ))}
         </div>

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ownerInput } from "@/constants/inputs";
 import { updateUser } from "@/services/actions/user.actions";
-import { editAdminSchema, TEditAdminZod } from "@/services/validators/user.zod";
+import { editOwnerSchema, TEditOwnerZod } from "@/services/validators/user.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -20,8 +20,8 @@ export const Owner = ({ user }: { user: IUser }) => {
     handleSubmit,
     register,
     formState: { errors, isDirty },
-  } = useForm<TEditAdminZod>({
-    resolver: zodResolver(editAdminSchema),
+  } = useForm<TEditOwnerZod>({
+    resolver: zodResolver(editOwnerSchema),
     defaultValues: {
       id: user._id,
       username: user.username,

@@ -2,6 +2,7 @@
 import { IProject } from "@/app/models/Project";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import useNav from "@/context/navContext";
 import { updateProject } from "@/services/actions/project.actions";
 import {
   editProjectSchema,
@@ -17,6 +18,7 @@ type Inputs = {
 };
 
 export const ProfileProject = ({ project }: { project: IProject }) => {
+  const { updateProjectNameState } = useNav();
   const {
     handleSubmit,
     register,
@@ -36,6 +38,7 @@ export const ProfileProject = ({ project }: { project: IProject }) => {
 
     if (response.success) {
       toast.success(response.message);
+      updateProjectNameState();
     } else {
       toast.error(response.message);
     }

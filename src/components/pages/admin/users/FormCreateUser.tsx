@@ -4,7 +4,11 @@ import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { chooseUserRole, createUserInput } from "@/constants/inputs";
+import {
+  chooseSalaryType,
+  chooseUserRole,
+  createUserInput,
+} from "@/constants/inputs";
 import { initialRoute } from "@/libs/utils";
 import { registerUser } from "@/services/actions/user.actions";
 import { Role, TWorkerZod, workerSchema } from "@/services/validators/user.zod";
@@ -26,6 +30,7 @@ type Inputs = {
   phone: string;
   role: Role;
   business?: string[];
+  salaryType: { percentage: string; fixed: string };
 };
 
 export const FormCreateUser = ({
@@ -44,13 +49,16 @@ export const FormCreateUser = ({
   } = useForm<TWorkerZod>({
     resolver: zodResolver(workerSchema),
     defaultValues: {
-      business: [],
+      business: business.map((b) => b._id),
+      salaryType: { percentage: "0", fixed: "0" },
     },
   });
   const pathname = usePathname();
   const initialPath = initialRoute(pathname);
   const formRef = useRef<HTMLFormElement>(null);
   const { push } = useRouter();
+
+  console.log(errors);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     toast.loading("Creando usuario...");
@@ -66,6 +74,10 @@ export const FormCreateUser = ({
       phone: data.phone,
       role: data.role,
       business: data.business,
+      salaryType: {
+        percentage: Number(data.salaryType.percentage),
+        fixed: Number(data.salaryType.fixed),
+      },
     };
 
     const response = await registerUser(dataToSend);
@@ -146,6 +158,61 @@ export const FormCreateUser = ({
                 {errors.role?.message && (
                   <p className="text-red-500 text-sm">{errors.role?.message}</p>
                 )}
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        {/* User Salary Type */}
+        <div className="border-b border-gray-900/10 pb-12">
+          <div className="mt-10 space-y-10">
+            <fieldset>
+              <legend className="mini-title">Salario</legend>
+              <p className="subtitle">
+                Elige el tipo de salario que desees que tenga el usuario, esto
+                se aplicara a la hora del cuadre diario
+              </p>
+              <div className="mt-6 space-y-6 capitalize">
+                {chooseSalaryType.map((input) => (
+                  <div
+                    key={input.id}
+                    className={`${input.containerClass} relative`}
+                  >
+                    <label htmlFor={input.id} className="label">
+                      {input.label}
+                      {input.required && (
+                        <span className="text-red-500">*</span>
+                      )}
+                    </label>
+                    {input?.description && (
+                      <p className="mini-subtitle pl-1">{input.description}</p>
+                    )}
+                    <div className="mt-2 flex max-w-[200px]">
+                      <Input
+                        type={input.type}
+                        id={input.id}
+                        autoComplete="given-name"
+                        className={`${
+                          errors.salaryType?.[
+                            input.name as keyof Inputs["salaryType"]
+                          ] && "border-red-500 outline-red-500 text-red-500"
+                        }`}
+                        {...register(
+                          `salaryType.${input.name}` as keyof Inputs
+                        )}
+                      />
+                      <span className="p-2">{input.unit}</span>
+                    </div>
+                    {errors.salaryType && (
+                      <p className="text-red-500 absolute -bottom-5 text-sm">
+                        {
+                          errors.salaryType[
+                            input.name as keyof Inputs["salaryType"]
+                          ]?.message
+                        }
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             </fieldset>
           </div>

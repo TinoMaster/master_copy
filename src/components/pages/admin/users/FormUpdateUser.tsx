@@ -4,7 +4,11 @@ import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { chooseUserRole, editUserInput } from "@/constants/inputs";
+import {
+  chooseSalaryType,
+  chooseUserRole,
+  editUserInput,
+} from "@/constants/inputs";
 import { initialRoute } from "@/libs/utils";
 import { deleteUser, updateUser } from "@/services/actions/user.actions";
 import {
@@ -28,6 +32,7 @@ type Inputs = {
   phone: string;
   role: Role;
   business?: string[];
+  salaryType: { percentage: string; fixed: string };
 };
 
 export const FormUpdateUser = ({
@@ -56,6 +61,10 @@ export const FormUpdateUser = ({
       phone: user.phone,
       role: user.role,
       business: user.business,
+      salaryType: {
+        percentage: user?.salaryType?.percentage.toString() ?? "-",
+        fixed: user?.salaryType?.fixed.toString() ?? "-",
+      },
     },
   });
   const formRef = useRef<HTMLFormElement>(null);
@@ -75,6 +84,10 @@ export const FormUpdateUser = ({
       phone: data.phone,
       role: data.role,
       business: data.business,
+      salaryType: {
+        percentage: Number(data.salaryType.percentage),
+        fixed: Number(data.salaryType.fixed),
+      },
     };
 
     const response = await updateUser(user._id, dataToEdit);
@@ -163,6 +176,61 @@ export const FormUpdateUser = ({
                 {errors.role?.message && (
                   <p className="text-red-500 text-sm">{errors.role?.message}</p>
                 )}
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        {/* User Salary Type */}
+        <div className="border-b border-gray-900/10 pb-12">
+          <div className="mt-10 space-y-10">
+            <fieldset>
+              <legend className="mini-title">Salario</legend>
+              <p className="subtitle">
+                Elige el tipo de salario que desees que tenga el usuario, esto
+                se aplicara a la hora del cuadre diario
+              </p>
+              <div className="mt-6 space-y-6 capitalize">
+                {chooseSalaryType.map((input) => (
+                  <div
+                    key={input.id}
+                    className={`${input.containerClass} relative`}
+                  >
+                    <label htmlFor={input.id} className="label">
+                      {input.label}
+                      {input.required && (
+                        <span className="text-red-500">*</span>
+                      )}
+                    </label>
+                    {input?.description && (
+                      <p className="mini-subtitle pl-1">{input.description}</p>
+                    )}
+                    <div className="mt-2 flex max-w-[200px]">
+                      <Input
+                        type={input.type}
+                        id={input.id}
+                        autoComplete="given-name"
+                        className={`${
+                          errors.salaryType?.[
+                            input.name as keyof Inputs["salaryType"]
+                          ] && "border-red-500 outline-red-500 text-red-500"
+                        }`}
+                        {...register(
+                          `salaryType.${input.name}` as keyof Inputs
+                        )}
+                      />
+                      <span className="p-2">{input.unit}</span>
+                    </div>
+                    {errors.salaryType && (
+                      <p className="text-red-500 absolute -bottom-5 text-sm">
+                        {
+                          errors.salaryType[
+                            input.name as keyof Inputs["salaryType"]
+                          ]?.message
+                        }
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             </fieldset>
           </div>

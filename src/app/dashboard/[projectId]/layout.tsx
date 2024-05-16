@@ -28,8 +28,8 @@ const Layout = async ({
   return (
     <main className="root">
       <Sidebar />
-      <MobileNav />
       <div className="root-container">
+        <MobileNav />
         <div className="wrapper">{children}</div>
       </div>
     </main>

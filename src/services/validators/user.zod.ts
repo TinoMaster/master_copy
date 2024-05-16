@@ -39,7 +39,7 @@ export const ownerSchema = z
     }
   );
 
-export const editAdminSchema = z
+export const editOwnerSchema = z
   .object({
     id: z.string().min(1, "El id es requerido"),
     username: z
@@ -112,6 +112,22 @@ export const workerSchema = z
       .refine((value) => value.some((item) => item), {
         message: "Debe seleccionar al menos un negocio.",
       }),
+    salaryType: z.object({
+      percentage: z.string().refine(
+        (value) => {
+          const regex = /^\d{1,2}$/;
+          return regex.test(value);
+        },
+        { message: "Porcentaje invalido" }
+      ),
+      fixed: z.string().refine(
+        (value) => {
+          const regex = /^\d{1,6}$/;
+          return regex.test(value);
+        },
+        { message: "Monto invalido" }
+      ),
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",
@@ -167,6 +183,22 @@ export const workerToEditSchema = z
       .refine((value) => value.some((item) => item), {
         message: "Debe seleccionar al menos un negocio.",
       }),
+    salaryType: z.object({
+      percentage: z.string().refine(
+        (value) => {
+          const regex = /^\d{1,2}$/;
+          return regex.test(value);
+        },
+        { message: "Porcentaje invalido" }
+      ),
+      fixed: z.string().refine(
+        (value) => {
+          const regex = /^\d{1,6}$/;
+          return regex.test(value);
+        },
+        { message: "Monto invalido" }
+      ),
+    }),
   })
   .refine(
     async (data) => {
@@ -183,6 +215,6 @@ export const workerToEditSchema = z
 
 export type TLoginZod = z.infer<typeof loginSchema>;
 export type TOwnerZod = z.infer<typeof ownerSchema>;
-export type TEditAdminZod = z.infer<typeof editAdminSchema>;
+export type TEditOwnerZod = z.infer<typeof editOwnerSchema>;
 export type TWorkerZod = z.infer<typeof workerSchema>;
 export type TWorkerToEditZod = z.infer<typeof workerToEditSchema>;

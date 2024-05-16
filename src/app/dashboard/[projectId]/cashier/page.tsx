@@ -18,13 +18,13 @@ const CashierPage = () => {
   return (
     <form className="w-full space-y-4">
       {/* Choosing workers */}
-      <div className="w-full flex flex-wrap rounded-md bg-white">
+      <div className="w-full flex flex-wrap rounded-md">
         <SelectWorkers />
         <SelectBusiness />
         <SelectDate />
       </div>
 
-      <div className="w-full grid xl:grid-cols-2 gap-4 rounded-md bg-white">
+      <div className="w-full grid xl:grid-cols-2 gap-4 rounded-md">
         <FormMoneyBreakdown />
         <FormDailyBalance />
       </div>

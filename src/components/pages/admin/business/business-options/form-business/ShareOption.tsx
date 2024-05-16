@@ -30,7 +30,7 @@ export const ShareOption = ({
           onCheckedChange={(val) => {
             setValue("statisticPermission", val, { shouldDirty: true });
           }}
-          className="data-[state=checked]:bg-green-600/80 "
+          className="data-[state=checked]:bg-green-600/80"
         />
       </div>
     </div>

@@ -20,6 +20,7 @@ export type TInput = {
   containerClass?: string;
   labelClass?: string;
   inputClass?: string;
+  unit?: string;
 };
 
 export interface CreateFirstProject extends Partial<IBusiness> {

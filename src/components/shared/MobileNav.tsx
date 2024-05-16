@@ -13,25 +13,40 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { RiMenu3Fill } from "react-icons/ri";
 import { Logo } from "./Logo";
 import { Profile } from "./Profile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Role, Roles } from "@/services/validators/user.zod";
+import { getProject } from "@/services/actions/project.actions";
+import { LoaderPageLogo } from "../loaders/LoaderPageLogo";
+import useNav from "@/context/navContext";
 
 const MobileNav = () => {
+  const [projectName, setProjectName] = useState("");
+  const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const route = cutPathnameByPieces(pathname, 3, 4);
   const initialPath = initialRoute(pathname);
-  const { data: session } = useSession();
-  return (
-    <header className="flex justify-between items-center fixed h-16 w-full p-5 lg:hidden bg-gray-50 shadow z-40">
-      <Link href="/" className="flex items-center gap-2 md:py-2">
-        <Logo />
-      </Link>
+  const { changedProjectName } = useNav();
 
+  useEffect(() => {
+    getProject(session?.user?.project as string).then((res) => {
+      if (res) {
+        setProjectName(res.name);
+      }
+    });
+  }, [session, changedProjectName]);
+
+  return (
+    <header className="flex justify-between items-center fixed lg:w-[calc(100%-305px)] xl:w-[calc(100%-337px)] h-16 w-full p-5 bg-gray-50 border-b z-40">
+      {status === "loading" || !projectName ? (
+        <LoaderPageLogo />
+      ) : (
+        <Logo name={projectName} />
+      )}
       <nav className="flex gap-2">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger>
-            <RiMenu3Fill className="text-3xl text-primary" />
+            <RiMenu3Fill className="text-3xl text-primary lg:hidden" />
           </SheetTrigger>
           <SheetContent
             onClick={() => setOpen(false)}
@@ -85,7 +100,7 @@ const MobileNav = () => {
               </ul>
               <button
                 onClick={(e) => e.stopPropagation()}
-                className="sidebar-nav_element group flex items-center cursor-pointer gap-2 p-4 bg-gradient-to-tr from-darkMode/5 via-lightDarkMode/5 to-darkMode/5 w-full rounded-full mt-3"
+                className="sidebar-nav_element group flex justify-center items-center cursor-pointer gap-2 p-4 bg-gradient-to-tr w-full rounded-full mt-3"
               >
                 <Profile />
               </button>

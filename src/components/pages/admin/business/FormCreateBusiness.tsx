@@ -134,6 +134,7 @@ export function FormCreateBusiness({ session }: { readonly session: Session }) {
                           })
                         : setValue("statisticPermission", false);
                     }}
+                    className="labelCheckbox"
                   />
                   <label
                     htmlFor="statisticPermission"

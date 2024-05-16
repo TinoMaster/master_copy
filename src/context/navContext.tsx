@@ -4,6 +4,8 @@ import React, { useState, useContext, createContext, useMemo } from "react";
 type NavState = {
   menuIsOpen: boolean;
   setMenuIsOpen(menu: boolean): void;
+  changedProjectName: boolean;
+  updateProjectNameState(): void;
 };
 
 const NavContext = createContext<NavState | null>(null);
@@ -16,10 +18,23 @@ const useNav = (): NavState => {
 
 export const NavProvider = ({ children }: { children: React.ReactNode }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [changedProjectName, setChangedProjectName] = useState(false);
+
+  const updateProjectNameState = useMemo(
+    () => () => {
+      setChangedProjectName((prev) => !prev);
+    },
+    [setChangedProjectName]
+  );
 
   const data = useMemo(
-    () => ({ menuIsOpen, setMenuIsOpen }),
-    [menuIsOpen, setMenuIsOpen]
+    () => ({
+      menuIsOpen,
+      setMenuIsOpen,
+      changedProjectName,
+      updateProjectNameState,
+    }),
+    [menuIsOpen, setMenuIsOpen, changedProjectName, updateProjectNameState]
   );
   return <NavContext.Provider value={data}>{children}</NavContext.Provider>;
 };

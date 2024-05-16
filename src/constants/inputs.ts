@@ -385,3 +385,25 @@ export const dailyBalance: TInput[] = [
     inputClass: "input",
   },
 ];
+
+export const chooseSalaryType: TInput[] = [
+  {
+    id: "percentage_item",
+    label: "Porcentaje",
+    description: "Porcentaje sobre el total de la venta",
+    unit: "%",
+    type: "text",
+    placeholder: "Ej: 100",
+    name: "percentage",
+    editable: true,
+  },
+  {
+    id: "fixed_item",
+    label: "Fijo",
+    unit: "$",
+    type: "text",
+    placeholder: "Ej: 100",
+    name: "fixed",
+    editable: true,
+  },
+];

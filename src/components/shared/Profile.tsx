@@ -28,7 +28,7 @@ export const Profile = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="flex h-14 gap-2 items-center hover:bg-primary/10 text-gray-700 relative bg-gray-50">
+        <Button className="flex h-14 gap-2 items-center hover:bg-pri-900 text-gray-50 relative bg-pri-950 w-full">
           <FaUser />
           Desconectarse
         </Button>
