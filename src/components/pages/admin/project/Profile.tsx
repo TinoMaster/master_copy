@@ -3,31 +3,25 @@ import { IProject } from "@/app/models/Project";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateProject } from "@/services/actions/project.actions";
+import {
+  editProjectSchema,
+  TEditProjectZod,
+} from "@/services/validators/project.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BsCoin } from "react-icons/bs";
-import { z } from "zod";
 
-
-/* //TODO: VALIDATE */
 type Inputs = {
   name: string;
 };
-const editProjectSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: "El nombre debe ser mayor a 3 caracteres" }),
-});
-type TEditProject = z.infer<typeof editProjectSchema>;
 
 export const ProfileProject = ({ project }: { project: IProject }) => {
   const {
     handleSubmit,
     register,
     formState: { errors, isDirty },
-  } = useForm<TEditProject>({
+  } = useForm<TEditProjectZod>({
     resolver: zodResolver(editProjectSchema),
     defaultValues: {
       name: project.name,
@@ -71,15 +65,17 @@ export const ProfileProject = ({ project }: { project: IProject }) => {
             <label htmlFor="name" className="label">
               Nombre del proyecto
             </label>
-            <Input
-              type="text"
-              id="name"
-              className="sm:w-1/2 bg-transparent"
-              {...register("name", { required: true })}
-            />
-            <p className="text-red-500 text-xs absolute -bottom-5 left-2">
-              {errors.name?.message}
-            </p>
+            <div className="sm:w-1/2 relative">
+              <Input
+                type="text"
+                id="name"
+                className="bg-transparent"
+                {...register("name", { required: true })}
+              />
+              <p className="text-red-500 text-xs absolute -bottom-5 left-2">
+                {errors.name?.message}
+              </p>
+            </div>
           </div>
         </div>
       </fieldset>

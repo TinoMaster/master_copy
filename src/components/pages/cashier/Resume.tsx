@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Drawer,
@@ -11,12 +12,20 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { CgNotes } from "react-icons/cg";
-
+import useBalance from "@/context/balanceContext";
+import { useSession } from "next-auth/react";
 
 export const Resume = () => {
+  const { status } = useSession();
+  const { balance } = useBalance();
+  if (status === "loading")
+    return (
+      <div className="w-full h-10 bg-black/5 rounded-md animate-pulse"></div>
+    );
+  console.log(balance);
   return (
     <Drawer>
-      <DrawerTrigger className="w-full flex justify-end pr-6">
+      <DrawerTrigger className="w-full flex justify-end">
         <Button
           variant="outline"
           className="gap-1 text-white bg-pri-900/80 hover:bg-pri-900 w-full"

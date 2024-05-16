@@ -1,5 +1,5 @@
 "use client";
-import { IBusiness } from "@/app/models/BusinessSchema";
+import { IBusiness } from "@/app/models/Business";
 import { Button } from "@/components/ui/button";
 import { initialSchedules } from "@/constants";
 import {

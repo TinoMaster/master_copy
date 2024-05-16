@@ -1,4 +1,4 @@
-import { IBusiness } from "@/app/models/BusinessSchema";
+import { IBusiness } from "@/app/models/Business";
 import { FormBusiness } from "./form-business";
 
 export function BusinessOptions({

@@ -14,6 +14,7 @@ export interface IUser extends Document {
   phone?: string;
   project?: string;
   business?: string[];
+  salaryType?: { percentage: number; fixed: number };
 }
 
 const UserSchema = new Schema(
@@ -34,6 +35,7 @@ const UserSchema = new Schema(
     phone: String,
     project: { type: Schema.Types.ObjectId, ref: "Project" },
     business: [{ type: Schema.Types.ObjectId, ref: "Business" }],
+    salaryType: { percentage: Number, fixed: Number },
   },
   {
     timestamps: true,

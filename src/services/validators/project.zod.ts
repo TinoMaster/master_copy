@@ -48,4 +48,23 @@ export const projectSchema = z
     }
   );
 
+export const editProjectSchema = z
+  .object({
+    name: z.string().min(1, "EL nombre del proyecto es requerido"),
+  })
+  .refine(
+    async (data) => {
+      const { name } = data;
+
+      const exist = await existProjectName(name);
+
+      return !exist;
+    },
+    {
+      message: "El nombre del proyecto ya existe",
+      path: ["name"],
+    }
+  );
+
 export type TProjectZod = z.infer<typeof projectSchema>;
+export type TEditProjectZod = z.infer<typeof editProjectSchema>;

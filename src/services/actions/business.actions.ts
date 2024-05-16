@@ -1,6 +1,6 @@
 "use server";
 
-import { BusinessModel, IBusiness } from "@/app/models/BusinessSchema";
+import { BusinessModel, IBusiness } from "@/app/models/Business";
 import { ProjectModel } from "@/app/models/Project";
 import { parseServerResponse } from "@/libs/utils";
 import mongoose from "mongoose";

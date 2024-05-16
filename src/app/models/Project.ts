@@ -1,5 +1,5 @@
 import { model, models, Schema } from "mongoose";
-import { IBusiness } from "./BusinessSchema";
+import { IBusiness } from "./Business";
 
 export interface IProject extends Document {
   _id: string;

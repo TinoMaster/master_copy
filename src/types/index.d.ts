@@ -1,5 +1,5 @@
 import { IconType } from "react-icons/lib";
-import { IBusiness } from "../app/models/BusinessSchema";
+import { IBusiness } from "../app/models/Business";
 
 export type TLink = {
   title: string;

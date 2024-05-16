@@ -1,5 +1,5 @@
 "use server";
-import { BusinessModel, IBusiness } from "@/app/models/BusinessSchema";
+import { BusinessModel, IBusiness } from "@/app/models/Business";
 import { IProject, ProjectModel } from "@/app/models/Project";
 import { UserModel } from "@/app/models/User";
 import { parseServerResponse } from "@/libs/utils";

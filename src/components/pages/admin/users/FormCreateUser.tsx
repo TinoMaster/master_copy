@@ -1,5 +1,5 @@
 "use client";
-import { IBusiness } from "@/app/models/BusinessSchema";
+import { IBusiness } from "@/app/models/Business";
 import { IUser } from "@/app/models/User";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
