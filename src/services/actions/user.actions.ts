@@ -1,10 +1,12 @@
 "use server";
-import { IUser, UserModel } from "@/app/models/User";
+import { IUser, IUserBusinessPopulated, UserModel } from "@/app/models/User";
 import { hashPassword } from "@/functions/api/password.hash";
 import { parseServerResponse } from "@/libs/utils";
 import mongoose from "mongoose";
 import { revalidateTag } from "next/cache";
 import { TOwnerZod } from "../validators/user.zod";
+import { IBusiness } from "@/app/models/Business";
+import { IDailyBalance } from "@/app/models/DailyBalance";
 
 export async function getUsers() {
   try {
@@ -150,5 +152,50 @@ export async function existEmail(email: string, userId?: string) {
   } catch (error) {
     console.log(error);
     return false;
+  }
+}
+
+export async function ListBusinessToBalanceByUser(userId: string) {
+  try {
+    await mongoose.connect((process.env.MONGODB_URI as string) ?? "");
+    const user = await UserModel.findById<IUserBusinessPopulated>(
+      userId
+    ).populate("business");
+
+    if (!user) throw new Error("No se encontró el usuario");
+
+    const businesses: Pick<IBusiness, "_id" | "name">[] = user.business.map(
+      (business) => {
+        return {
+          _id: business._id,
+          name: business.name,
+        };
+      }
+    );
+    return {
+      success: true,
+      data: parseServerResponse<Pick<IBusiness, "_id" | "name">[]>(businesses),
+    };
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: "Error al obtener usuario" };
+  }
+}
+
+export async function ListWorkersByBusiness(businessId: string) {
+  try {
+    await mongoose.connect((process.env.MONGODB_URI as string) ?? "");
+    const usersByBusiness = await UserModel.find<IUser>({
+      business: { $in: [businessId] },
+    });
+
+    if (!usersByBusiness) throw new Error("Error al hacer la petición");
+
+    if (!usersByBusiness.length) return null;
+
+    return parseServerResponse<IUser[]>(usersByBusiness);
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }

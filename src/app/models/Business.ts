@@ -1,5 +1,6 @@
 import { initialSchedules } from "@/constants";
-import { model, models, Schema } from "mongoose";
+import mongoose, { model, models, Schema } from "mongoose";
+import { UserModel } from "./User";
 
 export interface IBusiness extends Document {
   _id: string;
@@ -8,7 +9,6 @@ export interface IBusiness extends Document {
   project: string;
   description?: string;
   status: string;
-  workers: string[];
   address: string;
   municipality: string;
   phone?: string;
@@ -23,7 +23,6 @@ const BusinessSchema: Schema = new Schema(
     project: { type: Schema.Types.ObjectId, ref: "Project", required: true },
     description: { type: String },
     status: { type: String, required: true },
-    workers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     address: String,
     municipality: String,
     phone: String,
@@ -44,6 +43,28 @@ const BusinessSchema: Schema = new Schema(
     versionKey: false,
   }
 );
+
+BusinessSchema.pre("findOneAndDelete", async function (next) {
+  try {
+    const businessId: mongoose.Types.ObjectId = this.getQuery()["_id"];
+    const users = await UserModel.find({ business: { $in: [businessId] } });
+
+    if (users.length > 0) {
+      await Promise.all(
+        users.map(async (user) => {
+          await UserModel.findByIdAndUpdate(user._id, {
+            $pull: { business: businessId },
+          });
+        })
+      );
+    }
+
+    next();
+  } catch (error: any) {
+    console.log(error);
+    next(error);
+  }
+});
 
 export const BusinessModel =
   models?.Business || model<IBusiness>("Business", BusinessSchema);

@@ -32,7 +32,7 @@ export interface IDailyBalancePopulated {
       fixed: number;
     };
     discount: { percentage: number; fixed: number };
-  };
+  }[];
   date: Date;
   total: number;
   workersSalary: number;

@@ -11,8 +11,21 @@ import {
 import { useState } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 
-export const SelectDate = () => {
-  const [date, setDate] = useState<Date>();
+export const SelectDate = ({
+  onChangeDate,
+  disabled,
+}: {
+  onChangeDate: (date: Date) => void;
+  disabled: boolean;
+}) => {
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
+  const handleChange = (date: Date | undefined) => {
+    if (!date) return;
+    setDate(date);
+    onChangeDate(date);
+  };
+
   return (
     <div className="w-full sm:w-min p-5 space-y-4 rounded-md">
       <h4 className="head-title-banner">Seleccionar fecha</h4>
@@ -27,14 +40,15 @@ export const SelectDate = () => {
               )}
             >
               <FaRegCalendarAlt className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Elegir fecha</span>}
+              {date ? format(date, "dd/MM/yyyy") : "Seleccionar fecha"}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0">
             <Calendar
+              disabled={disabled}
               mode="single"
               selected={date}
-              onSelect={setDate}
+              onSelect={handleChange}
               initialFocus
             />
           </PopoverContent>

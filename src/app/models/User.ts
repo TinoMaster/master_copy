@@ -1,5 +1,6 @@
 import { Role } from "@/services/validators/user.zod";
 import { model, models, Schema } from "mongoose";
+import { IBusiness } from "./Business";
 
 export interface IUser extends Document {
   _id: string;
@@ -13,8 +14,13 @@ export interface IUser extends Document {
   CI?: number;
   phone?: string;
   project?: string;
-  business?: string[];
+  business: string[];
   salaryType?: { percentage: number; fixed: number };
+}
+
+export interface IUserBusinessPopulated
+  extends Omit<IUser, "password" | "business"> {
+  business: IBusiness[];
 }
 
 const UserSchema = new Schema(

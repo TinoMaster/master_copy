@@ -2,6 +2,7 @@
 
 import { BusinessModel, IBusiness } from "@/app/models/Business";
 import { ProjectModel } from "@/app/models/Project";
+import { UserModel } from "@/app/models/User";
 import { parseServerResponse } from "@/libs/utils";
 import mongoose from "mongoose";
 import { revalidateTag } from "next/cache";
@@ -13,11 +14,16 @@ export async function createBusiness(data: Partial<IBusiness>) {
 
     if (!response) throw new Error("No se pudo crear el negocio");
 
+    await UserModel.findByIdAndUpdate(response.owner, {
+      $push: { business: response._id },
+    });
+
     await ProjectModel.findByIdAndUpdate(data.project, {
       $push: { business: response._id },
     });
     revalidateTag("business");
     revalidateTag("project");
+    revalidateTag("user");
     return { success: true, message: "Negocio creado correctamente" };
   } catch (error) {
     console.log(error);
@@ -37,7 +43,7 @@ export async function deleteBusiness(businessId: string, projectId: string) {
       };
     }
 
-    await BusinessModel.findByIdAndDelete(businessId);
+    await BusinessModel.findOneAndDelete({ _id: businessId });
     await ProjectModel.findByIdAndUpdate(projectId, {
       $pull: { business: businessId },
     });
