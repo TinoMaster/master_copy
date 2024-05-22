@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -10,14 +10,11 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { CgNotes } from "react-icons/cg";
-import useBalance from "@/context/balanceContext";
 import { useSession } from "next-auth/react";
+import { CgNotes } from "react-icons/cg";
 
 export const Resume = () => {
   const { status } = useSession();
-  const { balance } = useBalance();
   if (status === "loading")
     return (
       <div className="w-full h-10 bg-black/5 rounded-md animate-pulse"></div>
