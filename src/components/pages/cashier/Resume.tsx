@@ -22,7 +22,6 @@ export const Resume = () => {
     return (
       <div className="w-full h-10 bg-black/5 rounded-md animate-pulse"></div>
     );
-  console.log(balance);
   return (
     <Drawer>
       <DrawerTrigger className="w-full flex justify-end">

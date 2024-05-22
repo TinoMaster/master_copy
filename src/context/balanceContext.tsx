@@ -1,5 +1,4 @@
 "use client";
-
 import { IBusiness } from "@/app/models/Business";
 import { IDailyBalance } from "@/app/models/DailyBalance";
 import {
@@ -19,7 +18,7 @@ import {
 export interface IBalanceHook
   extends Pick<
     IDailyBalance,
-    "date" | "total" | "dateId" | "_id" | "businessSalary" | "business"
+    "date" | "total" | "dateId" | "businessSalary" | "business"
   > {
   workers: {
     name: string;
@@ -34,6 +33,7 @@ export interface IBalanceHook
       fixed: number;
     };
   }[];
+  cash: number;
 }
 
 type BalanceState = {
@@ -47,20 +47,20 @@ type BalanceState = {
 };
 const BalanceContext = createContext<BalanceState | null>(null);
 
+const useBalance = (): BalanceState => {
+  const context = useContext(BalanceContext);
+  if (!context) throw new Error("Please use ThemeProvider in parent component");
+  return context;
+};
+
 const initialBalance: IBalanceHook = {
-  _id: "",
   dateId: "",
   business: "",
   workers: [],
   date: new Date(),
   total: 0,
   businessSalary: 0,
-};
-
-const useBalance = (): BalanceState => {
-  const context = useContext(BalanceContext);
-  if (!context) throw new Error("Please use ThemeProvider in parent component");
-  return context;
+  cash: 0,
 };
 
 export const BalanceProvider = ({
@@ -74,8 +74,6 @@ export const BalanceProvider = ({
     Pick<IBusiness, "_id" | "name">[]
   >([]);
   const [workers, setWorkers] = useState<IBalanceHook["workers"]>([]);
-
-  console.log(balance);
 
   /* UseEffects */
   useEffect(() => {
