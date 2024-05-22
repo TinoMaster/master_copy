@@ -18,17 +18,13 @@ const CashierPage = () => {
   const {
     businesses,
     onChangeBusinesses,
-    workers,
+    workersListByBusiness,
+    selectedWorkers,
+    selectedBusiness,
     onChangeWorkers,
     onDeleteWorker,
     onChangeDate,
-    balance,
   } = useBalance();
-
-  const selectedWorkers: SelectedWorker[] = balance.workers.map((worker) => ({
-    name: worker.name,
-    id: worker.id,
-  }));
 
   if (status === "loading")
     return (
@@ -47,18 +43,19 @@ const CashierPage = () => {
           onChangeBusiness={onChangeBusinesses}
         />
         <SelectWorkers
-          workers={workers}
+          workers={workersListByBusiness}
           handleChange={onChangeWorkers}
           onDeleteWorker={onDeleteWorker}
-          selectedWorkers={selectedWorkers}
-          selectedBusiness={!!balance.business}
+          selectedWorkers={selectedWorkers.map((worker) => {
+            return { name: worker.name, id: worker.id };
+          })}
+          selectedBusiness={!!selectedBusiness}
         />
         <SelectDate
           onChangeDate={onChangeDate}
-          disabled={!checkRolePermission(
-            session?.user?.role ?? "owner",
-            "admin"
-          )}
+          disabled={
+            !checkRolePermission(session?.user?.role ?? "owner", "admin")
+          }
         />
       </div>
 

@@ -1,10 +1,11 @@
 "use client";
 import { IBusiness } from "@/app/models/Business";
-import { IDailyBalance } from "@/app/models/DailyBalance";
 import {
   ListBusinessToBalanceByUser,
   ListWorkersByBusiness,
 } from "@/services/actions/user.actions";
+import { dailyBalanceStore } from "@/store/dailyBalance";
+import { IBalanceHook } from "@/types/dailyBalance";
 import { useSession } from "next-auth/react";
 import {
   createContext,
@@ -15,32 +16,12 @@ import {
   useState,
 } from "react";
 
-export interface IBalanceHook
-  extends Pick<
-    IDailyBalance,
-    "date" | "total" | "dateId" | "businessSalary" | "business"
-  > {
-  workers: {
-    name: string;
-    id: string;
-    discount: {
-      percentage: number;
-      fixed: number;
-    };
-    salary: number;
-    salaryType: {
-      percentage: number;
-      fixed: number;
-    };
-  }[];
-  cash: number;
-}
-
 type BalanceState = {
-  balance: IBalanceHook;
   businesses: Pick<IBusiness, "_id" | "name">[];
   onChangeBusinesses(business: string): void;
-  workers: IBalanceHook["workers"];
+  workersListByBusiness: IBalanceHook["workers"];
+  selectedWorkers: IBalanceHook["workers"];
+  selectedBusiness: string;
   onChangeWorkers(worker: string): void;
   onDeleteWorker(worker: string): void;
   onChangeDate(date: Date): void;
@@ -53,27 +34,24 @@ const useBalance = (): BalanceState => {
   return context;
 };
 
-const initialBalance: IBalanceHook = {
-  dateId: "",
-  business: "",
-  workers: [],
-  date: new Date(),
-  total: 0,
-  businessSalary: 0,
-  cash: 0,
-};
-
 export const BalanceProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [balance, setBalance] = useState<IBalanceHook>(initialBalance);
+  /* States */
+  const { updateDailyBalance } = dailyBalanceStore((state) => state);
   const { data: session } = useSession();
   const [businesses, setBusinesses] = useState<
     Pick<IBusiness, "_id" | "name">[]
   >([]);
-  const [workers, setWorkers] = useState<IBalanceHook["workers"]>([]);
+  const [selectedBusiness, setSelectedBusiness] = useState("");
+  const [workersListByBusiness, setWorkersListByBusiness] = useState<
+    IBalanceHook["workers"]
+  >([]);
+  const [selectedWorkers, setSelectedWorkers] = useState<
+    IBalanceHook["workers"]
+  >([]);
 
   /* UseEffects */
   useEffect(() => {
@@ -82,17 +60,17 @@ export const BalanceProvider = ({
       if (res.success && res.data) {
         setBusinesses(res.data);
         if (res.data.length === 1) {
-          setBalance({ ...balance, business: res.data[0]._id });
+          setSelectedBusiness(res.data[0]._id);
         }
       }
     });
   }, [session]);
 
   useEffect(() => {
-    if (!balance.business) return;
-    ListWorkersByBusiness(balance.business).then((res) => {
+    if (!selectedBusiness) return;
+    ListWorkersByBusiness(selectedBusiness).then((res) => {
       if (res)
-        setWorkers(
+        setWorkersListByBusiness(
           res.map((worker) => {
             return {
               name: worker.username,
@@ -110,62 +88,59 @@ export const BalanceProvider = ({
           })
         );
     });
-  }, [balance.business]);
+  }, [selectedBusiness]);
 
   /* Callbacks */
 
   const onChangeWorkers = useCallback(
     (workerId: string) => {
-      setBalance({
-        ...balance,
-        workers: [
-          ...balance.workers,
-          workers.filter((w) => w.id === workerId).flat()[0],
-        ],
-      });
+      setSelectedWorkers([
+        ...selectedWorkers,
+        workersListByBusiness.filter((w) => w.id === workerId).flat()[0],
+      ]);
     },
-    [balance, workers]
+    [selectedWorkers, workersListByBusiness]
   );
 
   const onDeleteWorker = useCallback(
     (workerId: string) => {
-      setBalance({
-        ...balance,
-        workers: balance.workers.filter((w) => w.id !== workerId),
-      });
+      setSelectedWorkers(selectedWorkers.filter((w) => w.id !== workerId));
     },
-    [balance]
+    [selectedWorkers]
   );
 
   const onChangeBusinesses = useCallback(
     (business: string) => {
-      setBalance({ ...balance, business, workers: [] });
+      setSelectedBusiness(business);
+      setSelectedWorkers([]);
     },
-    [balance]
+    [setSelectedBusiness, setSelectedWorkers]
   );
 
   const onChangeDate = useCallback(
     (date: Date) => {
-      setBalance({ ...balance, date });
+      updateDailyBalance({ date });
     },
-    [balance]
+    [updateDailyBalance]
   );
 
   const data = useMemo(
     () => ({
-      balance,
       businesses,
       onChangeBusinesses,
-      workers,
+      workersListByBusiness,
+      selectedWorkers,
+      selectedBusiness,
       onChangeWorkers,
       onDeleteWorker,
       onChangeDate,
     }),
     [
-      balance,
       businesses,
       onChangeBusinesses,
-      workers,
+      workersListByBusiness,
+      selectedWorkers,
+      selectedBusiness,
       onChangeWorkers,
       onDeleteWorker,
       onChangeDate,
