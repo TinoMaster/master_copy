@@ -42,4 +42,18 @@ export interface IBalanceHook
     };
   }[];
   cash: number;
+  found: number;
+  debts: {
+    name: string;
+    description: string;
+    value: number;
+    date: Date;
+  }[];
+  totalDebts: number;
+  cards: {
+    name: string;
+    description: string;
+    value: number;
+    date: Date;
+  }[];
 }

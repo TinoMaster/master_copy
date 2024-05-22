@@ -10,11 +10,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { dailyBalanceStore } from "@/store/dailyBalance";
 import { useSession } from "next-auth/react";
 import { CgNotes } from "react-icons/cg";
 
 export const Resume = () => {
   const { status } = useSession();
+  const stateBalance = dailyBalanceStore((state) => state);
   if (status === "loading")
     return (
       <div className="w-full h-10 bg-black/5 rounded-md animate-pulse"></div>
@@ -38,12 +40,13 @@ export const Resume = () => {
           </DrawerDescription>
         </DrawerHeader>
         <div className="container">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Reprehenderit similique neque quidem numquam, optio, ullam
-            voluptates doloremque ipsa in asperiores ab, amet nostrum! Quas
-            molestias earum iusto in! Ipsum, dignissimos?
-          </p>
+          {/* {Object.keys(stateBalance).map((key) => {
+            return (
+              <div key={key} className="w-full h-10 bg-black/5 rounded-md my-3">
+                {`${key}: ${stateBalance[key]}`}
+              </div>
+            );
+          })} */}
         </div>
         <DrawerFooter>
           <div className="w-full flex justify-end gap-2">

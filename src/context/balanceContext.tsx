@@ -16,6 +16,16 @@ import {
   useState,
 } from "react";
 
+const initialBalanceState: Pick<
+  IBalanceHook,
+  "total" | "cash" | "found" | "totalDebts"
+> = {
+  total: 0,
+  cash: 0,
+  found: 0,
+  totalDebts: 0,
+};
+
 type BalanceState = {
   businesses: Pick<IBusiness, "_id" | "name">[];
   onChangeBusinesses(business: string): void;
@@ -52,6 +62,8 @@ export const BalanceProvider = ({
   const [selectedWorkers, setSelectedWorkers] = useState<
     IBalanceHook["workers"]
   >([]);
+  const [balance, setBalance] = useState(initialBalanceState);
+  const [debts, setDebts] = useState<IBalanceHook["debts"]>([]);
 
   /* UseEffects */
   useEffect(() => {

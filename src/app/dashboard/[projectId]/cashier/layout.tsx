@@ -1,7 +1,7 @@
 import { Resume } from "@/components/pages/cashier/Resume";
 import { MenuInfinite } from "@/components/shared/MenuInfinite";
 import { linksCashierPanel } from "@/constants";
-import { BalanceProvider } from "@/context/balanceContext";
+import { BalanceProvider } from "./Providers";
 
 const CashierLayout = ({ children }: { children: React.ReactNode }) => {
   return (

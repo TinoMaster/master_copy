@@ -4,7 +4,9 @@ import { FormMoneyBreakdown } from "@/components/pages/cashier/copies/FormMoneyB
 import { SelectBusiness } from "@/components/pages/cashier/copies/SelectBusiness";
 import { SelectDate } from "@/components/pages/cashier/copies/SelectDate";
 import { SelectWorkers } from "@/components/pages/cashier/copies/SelectWorkers";
-import useBalance from "@/context/balanceContext";
+import { useBusiness } from "@/context/balance/businessContext";
+import { useDate } from "@/context/balance/dateContext";
+import { useWorkers } from "@/context/balance/workersContext";
 import { checkRolePermission } from "@/libs/utils";
 import { useSession } from "next-auth/react";
 
@@ -15,16 +17,14 @@ export interface SelectedWorker {
 
 const CashierPage = () => {
   const { status, data: session } = useSession();
+  const { businesses, onChangeBusinesses, selectedBusiness } = useBusiness();
   const {
-    businesses,
-    onChangeBusinesses,
-    workersListByBusiness,
-    selectedWorkers,
-    selectedBusiness,
     onChangeWorkers,
     onDeleteWorker,
-    onChangeDate,
-  } = useBalance();
+    selectedWorkers,
+    workersListByBusiness,
+  } = useWorkers();
+  const { onChangeDate } = useDate();
 
   if (status === "loading")
     return (

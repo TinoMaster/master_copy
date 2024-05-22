@@ -93,6 +93,7 @@ export const FormMoneyBreakdown = () => {
     register,
     handleSubmit,
     formState: { errors },
+    resetField,
   } = useForm<MoneyBreakdownType>({
     resolver: zodResolver(MoneyBreakdownSchema),
   });
@@ -108,6 +109,19 @@ export const FormMoneyBreakdown = () => {
         return acc + Number(curr) * getIndexValue(index);
       }, 0)
     );
+  };
+
+  const resetFields = () => {
+    resetField(moneyBreakdown[0].name);
+    resetField(moneyBreakdown[1].name);
+    resetField(moneyBreakdown[2].name);
+    resetField(moneyBreakdown[3].name);
+    resetField(moneyBreakdown[4].name);
+    resetField(moneyBreakdown[5].name);
+    resetField(moneyBreakdown[6].name);
+    resetField(moneyBreakdown[7].name);
+    resetField(moneyBreakdown[8].name);
+    resetField(moneyBreakdown[9].name);
   };
 
   return (
@@ -149,7 +163,10 @@ export const FormMoneyBreakdown = () => {
           <Button
             type="reset"
             className="bg-gray-300/80 hover:bg-gray-300 text-gray-800"
-            onClick={() => setTotal(0)}
+            onClick={() => {
+              setTotal(0);
+              resetFields();
+            }}
           >
             Reiniciar
           </Button>

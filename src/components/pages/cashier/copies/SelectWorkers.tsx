@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { IBalanceHook } from "@/context/balanceContext";
+import { IBalanceHook } from "@/types/dailyBalance";
 
 export const SelectWorkers = ({
   workers,
