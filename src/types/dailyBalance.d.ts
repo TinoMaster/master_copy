@@ -4,7 +4,7 @@ import { IDailyBalance } from "@/app/models/DailyBalance";
 export interface IBalanceStore
   extends Pick<
     IDailyBalance,
-    "date" | "total" | "dateId" | "businessSalary" | "business"
+    "date" | "total" | "dateId" | "businessSalary" | "workersSalary"
   > {
   workers: {
     name: string;
@@ -20,6 +20,7 @@ export interface IBalanceStore
     };
   }[];
   cash: number;
+  business: Pick<IBusiness, "_id" | "name">;
   updateDailyBalance: (dailyBalance: Partial<IBalanceStore>) => void;
 }
 

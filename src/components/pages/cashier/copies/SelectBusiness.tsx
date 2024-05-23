@@ -14,17 +14,21 @@ import { useState } from "react";
 export const SelectBusiness = ({
   businesses,
   onChangeBusiness,
+  selectedBusiness,
 }: {
   businesses: Pick<IBusiness, "_id" | "name">[];
-  onChangeBusiness: (business: string) => void;
+  selectedBusiness: Pick<IBusiness, "_id" | "name"> | undefined;
+  onChangeBusiness: (business: Pick<IBusiness, "_id" | "name">) => void;
 }) => {
   const [value, setValue] = useState(
-    businesses.length === 1 ? businesses[0]._id : ""
+    businesses.length === 1 ? businesses[0]._id : selectedBusiness?._id
   );
 
   const handleChange = (business: string) => {
+    const businessSelected = businesses.find((b) => b._id === business);
+    if (!businessSelected) return;
     setValue(business);
-    onChangeBusiness(business);
+    onChangeBusiness(businessSelected);
   };
 
   return (

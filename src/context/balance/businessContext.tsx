@@ -13,8 +13,8 @@ import { dailyBalanceStore } from "@/store/dailyBalance";
 
 type BusinessState = {
   businesses: Pick<IBusiness, "_id" | "name">[];
-  selectedBusiness: string;
-  onChangeBusinesses(business: string): void;
+  selectedBusiness: Pick<IBusiness, "_id" | "name">;
+  onChangeBusinesses(business: Pick<IBusiness, "_id" | "name">): void;
 };
 
 const BusinessContext = createContext<BusinessState | null>(null);
@@ -38,22 +38,28 @@ export const BusinessProvider = ({
   const [businesses, setBusinesses] = useState<
     Pick<IBusiness, "_id" | "name">[]
   >([]);
-  const [selectedBusiness, setSelectedBusiness] = useState("");
+  const [selectedBusiness, setSelectedBusiness] = useState<
+    Pick<IBusiness, "_id" | "name">
+  >({
+    _id: "",
+    name: "",
+  });
 
   useEffect(() => {
     if (!session) return;
+
     ListBusinessToBalanceByUser(session?.user?.sub as string).then((res) => {
       if (res.success && res.data) {
         setBusinesses(res.data);
         if (res.data.length === 1) {
-          setSelectedBusiness(res.data[0]._id);
+          setSelectedBusiness({ _id: res.data[0]._id, name: res.data[0].name });
         }
       }
     });
   }, [session]);
 
   const onChangeBusinesses = useCallback(
-    (business: string) => {
+    (business: Pick<IBusiness, "_id" | "name">) => {
       setSelectedBusiness(business);
       updateDailyBalance({
         business,

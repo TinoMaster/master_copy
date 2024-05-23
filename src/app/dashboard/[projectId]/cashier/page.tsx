@@ -39,6 +39,7 @@ const CashierPage = () => {
       {/* Choosing workers */}
       <div className="w-full flex flex-wrap rounded-md">
         <SelectBusiness
+          selectedBusiness={selectedBusiness}
           businesses={businesses}
           onChangeBusiness={onChangeBusinesses}
         />
@@ -49,7 +50,7 @@ const CashierPage = () => {
           selectedWorkers={selectedWorkers.map((worker) => {
             return { name: worker.name, id: worker.id };
           })}
-          selectedBusiness={!!selectedBusiness}
+          selectedBusiness={!!selectedBusiness._id}
         />
         <SelectDate
           onChangeDate={onChangeDate}

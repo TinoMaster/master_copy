@@ -8,6 +8,7 @@ import {
 } from "react";
 import { IBalanceHook } from "@/types/dailyBalance";
 import { ListWorkersByBusiness } from "@/services/actions/user.actions";
+import { dailyBalanceStore } from "@/store/dailyBalance";
 
 type WorkersState = {
   workersListByBusiness: IBalanceHook["workers"];
@@ -32,6 +33,9 @@ export const WorkersProvider = ({
   children: React.ReactNode;
   selectedBusiness: string;
 }) => {
+  const updateDailyBalance = dailyBalanceStore(
+    (state) => state.updateDailyBalance
+  );
   const [workersListByBusiness, setWorkersListByBusiness] = useState<
     IBalanceHook["workers"]
   >([]);
@@ -64,19 +68,26 @@ export const WorkersProvider = ({
 
   const onChangeWorkers = useCallback(
     (workerId: string) => {
-      setSelectedWorkers([
-        ...selectedWorkers,
-        workersListByBusiness.find((w) => w.id === workerId)!,
-      ]);
+      const worker = workersListByBusiness.find((w) => w.id === workerId);
+      if (!worker) return;
+      setSelectedWorkers([...selectedWorkers, worker]);
+
+      updateDailyBalance({
+        workers: [...selectedWorkers, worker],
+      });
     },
-    [selectedWorkers, workersListByBusiness]
+    [selectedWorkers, workersListByBusiness, updateDailyBalance]
   );
 
   const onDeleteWorker = useCallback(
     (workerId: string) => {
       setSelectedWorkers(selectedWorkers.filter((w) => w.id !== workerId));
+
+      updateDailyBalance({
+        workers: selectedWorkers.filter((w) => w.id !== workerId),
+      });
     },
-    [selectedWorkers]
+    [selectedWorkers, updateDailyBalance]
   );
 
   const data = useMemo(() => {

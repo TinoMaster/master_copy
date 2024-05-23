@@ -1,4 +1,4 @@
-import { Resume } from "@/components/pages/cashier/Resume";
+import { Resume } from "@/components/pages/cashier/resume";
 import { MenuInfinite } from "@/components/shared/MenuInfinite";
 import { linksCashierPanel } from "@/constants";
 import { BalanceProvider } from "./Providers";

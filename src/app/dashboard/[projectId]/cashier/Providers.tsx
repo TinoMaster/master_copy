@@ -6,12 +6,13 @@ import {
   BusinessProvider,
   useBusiness,
 } from "@/context/balance/businessContext";
+import { IBusiness } from "@/app/models/Business";
 
 export const BalanceProvider = ({ children }: { children: ReactNode }) => (
   <BusinessProvider>
     <BusinessConsumer>
       {({ selectedBusiness }) => (
-        <WorkersProvider selectedBusiness={selectedBusiness}>
+        <WorkersProvider selectedBusiness={selectedBusiness._id}>
           <DateProvider>{children}</DateProvider>
         </WorkersProvider>
       )}
@@ -22,7 +23,9 @@ export const BalanceProvider = ({ children }: { children: ReactNode }) => (
 const BusinessConsumer = ({
   children,
 }: {
-  children: (props: { selectedBusiness: string }) => ReactNode;
+  children: (props: {
+    selectedBusiness: Pick<IBusiness, "_id" | "name">;
+  }) => ReactNode;
 }) => {
   const { selectedBusiness } = useBusiness();
   return children({ selectedBusiness });

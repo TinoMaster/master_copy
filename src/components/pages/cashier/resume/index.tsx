@@ -13,6 +13,7 @@ import {
 import { dailyBalanceStore } from "@/store/dailyBalance";
 import { useSession } from "next-auth/react";
 import { CgNotes } from "react-icons/cg";
+import { FirstBox } from "./firstBox";
 
 export const Resume = () => {
   const { status } = useSession();
@@ -40,19 +41,23 @@ export const Resume = () => {
           </DrawerDescription>
         </DrawerHeader>
         <div className="container">
-          {/* {Object.keys(stateBalance).map((key) => {
-            return (
-              <div key={key} className="w-full h-10 bg-black/5 rounded-md my-3">
-                {`${key}: ${stateBalance[key]}`}
-              </div>
-            );
-          })} */}
+          <div className="grid grid-cols-2 gap-4 py-2">
+            <FirstBox balance={stateBalance} />
+          </div>
         </div>
         <DrawerFooter>
           <div className="w-full flex justify-end gap-2">
             <Button className="w-20">Guardar</Button>
+            <Button className="w-20 bg-green-500/30 text-gray-800">
+              Imprimir
+            </Button>
+            <Button className="w-20 bg-gray-500/30 text-gray-800">
+              Reiniciar
+            </Button>
             <DrawerClose className="w-20">
-              <Button variant="outline">Cerrar</Button>
+              <Button variant="outline" className="bg-red-500/30 text-gray-800">
+                Cerrar
+              </Button>
             </DrawerClose>
           </div>
         </DrawerFooter>

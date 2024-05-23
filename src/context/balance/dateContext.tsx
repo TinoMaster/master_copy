@@ -14,7 +14,9 @@ export const useDate = (): DateState => {
 };
 
 export const DateProvider = ({ children }: { children: React.ReactNode }) => {
-  const { updateDailyBalance } = dailyBalanceStore((state) => state);
+  const updateDailyBalance = dailyBalanceStore(
+    (state) => state.updateDailyBalance
+  );
 
   const onChangeDate = useCallback(
     (date: Date) => {
